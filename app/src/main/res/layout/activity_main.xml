@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <include layout="@layout/appbar"
+        android:id="@+id/mainAppbar"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"></include>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/harjendera_radio_company"
+        android:textSize="24dp"
+        android:textStyle="bold"
+        android:id="@+id/hrctext"
+        android:textColor="@color/colorAccent"
+        android:layout_margin="20dp"
+        android:gravity="center"/>
+
+    <ImageView
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_margin="20dp"
+        android:minWidth="0dp"
+        android:layout_gravity="center"
+        android:minHeight="0dp"
+        android:background="#212121"/>
+
+    <Button
+        android:id="@+id/main_AboutUsBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:textSize="18dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/rectanglebg"
+        android:textColor="#ffffff"
+        android:text="@string/about_us" />
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#ffffff"
+        android:text="@string/products"
+        android:background="@drawable/rectanglebg"
+        android:layout_margin="10dp"
+        android:textSize="18dp"
+        android:id="@+id/main_productsBtn" />
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#ffffff"
+        android:text="@string/contact_us"
+        android:background="@drawable/rectanglebg"
+        android:layout_margin="10dp"
+        android:textSize="18dp"
+        android:id="@+id/main_ContactUsBtn" />
+
+</LinearLayout>

@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">HRC</string>
+    <string name="contact_us">Contact Us</string>
+    <string name="products">Products</string>
+    <string name="about_us">About Us</string>
+    <string name="harjendera_radio_company">Harjendera Radio Company</string>
+    <string name="home">Home</string>
+</resources>
