@@ -1,9 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".AddProductActivity">
 
-</android.support.constraint.ConstraintLayout>
+    <include
+        android:id="@+id/addprod_app_bar"
+        layout="@layout/appbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"></include>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/prod_name_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/addprod_app_bar"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="20dp"
+        android:hint="Product Name">
+
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+        android:id="@+id/uploadimagebtn"
+        android:layout_width="130dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/prod_name_input"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:backgroundTint="@color/colorAccent"
+        android:text="Upload image"
+        android:textColor="#ffffff"
+        android:textSize="14dp" />
+
+    <Button
+        android:id="@+id/deleteimagebtn"
+        android:layout_width="130dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/prod_name_input"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="20dp"
+        android:backgroundTint="@color/colorAccent"
+        android:text="Delete Image"
+        android:textColor="#ffffff"
+        android:textSize="14dp" />
+
+
+    <TextView
+        android:id="@+id/result"
+        android:layout_width="130dp"
+        android:layout_height="40dp"
+        android:layout_below="@+id/uploadimagebtn"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="23dp"
+        android:layout_marginTop="3dp"
+        android:textColor="#212121"
+        android:textSize="14dp" />
+
+    <Button
+        android:id="@+id/addProdBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="20dp"
+        android:backgroundTint="#008000"
+        android:gravity="center"
+
+        android:text="Add"
+        android:textColor="#ffffff"
+        android:textSize="14dp" />
+
+
+</RelativeLayout>

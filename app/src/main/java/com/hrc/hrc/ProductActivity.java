@@ -3,12 +3,14 @@ package com.hrc.hrc;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
+import androidx.annotation.NonNull;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.FirebaseApp;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.appcompat.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,16 +29,19 @@ public class ProductActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product);
+
+        FirebaseApp.initializeApp(this);
 
         addBtn = findViewById(R.id.productaddBtn);
         productAppBar = findViewById(R.id.productappbar);
 
 
-
         setSupportActionBar(productAppBar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("Products");
 
         productsRecycler = findViewById(R.id.productrecyler);
         productsRecycler.setHasFixedSize(true);
@@ -44,17 +49,15 @@ public class ProductActivity extends AppCompatActivity {
         productsRecycler.setLayoutManager(layoutManager);
 
         ProductsList = new ArrayList<>();
-        Item item1 = new Item("name1","desc1","full desc");
-        for(int i = 0;i<20;i++){
-            ProductsList.add(item1);
-        }
+        Item item1 = new Item("name1", "desc1", "full desc");
+
         adapter = new ProductsAdapter(this, ProductsList);
         productsRecycler.setAdapter(adapter);
 
         addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent addProductIntent = new Intent(ProductActivity.this,AddProductActivity.class);
+                Intent addProductIntent = new Intent(ProductActivity.this, AddProductActivity.class);
                 startActivity(addProductIntent);
             }
         });
@@ -104,8 +107,6 @@ public class ProductActivity extends AppCompatActivity {
             itemname = itemView.findViewById(R.id.itemname);
             itemOneDesc = itemView.findViewById(R.id.onelinedesc);
             itemImage = itemView.findViewById(R.id.productimage);
-
-
         }
     }
 }
