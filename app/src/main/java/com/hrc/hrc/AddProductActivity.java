@@ -42,7 +42,7 @@ public class AddProductActivity extends AppCompatActivity {
     private TextInputLayout mproductName;
     private Button muploadimagebtn, mDeleteImagebtn, maddProdbtn;
     private TextView resultdisplay;
-    private String imagestring, prodnamestring, downloadUrl;
+    private String imagestring, prodnamestring="", downloadUrl;
     private ProgressDialog mProgressDialaog;
     private StorageReference mImageStorage;
     private Toolbar appbar;
@@ -69,11 +69,18 @@ public class AddProductActivity extends AppCompatActivity {
         muploadimagebtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CropImage.activity()
-                        .setGuidelines(CropImageView.Guidelines.ON)
-                        .start(AddProductActivity.this);
+                prodnamestring = mproductName.getEditText().getText().toString();
+                if (prodnamestring.equals("")) {
+                    Toast.makeText(AddProductActivity.this, "Please enter name", Toast.LENGTH_LONG).show();
+
+                } else {
+                    CropImage.activity()
+                            .setGuidelines(CropImageView.Guidelines.ON)
+                            .start(AddProductActivity.this);
+                }
             }
         });
+
 
 
         mDeleteImagebtn.setOnClickListener(new View.OnClickListener() {
@@ -110,7 +117,7 @@ public class AddProductActivity extends AppCompatActivity {
                 HashMap<String, Object> result = new HashMap<>();
 
                 if (!mproductName.equals("")) {
-                    result.put("product_name", prodnamestring);
+                    result.put("itemName", prodnamestring);
                 }
                 result.put("image",imagestring);
 

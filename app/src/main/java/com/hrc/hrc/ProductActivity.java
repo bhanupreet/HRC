@@ -3,14 +3,23 @@ package com.hrc.hrc;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+
 import androidx.annotation.NonNull;
+
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.FirebaseApp;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.Toolbar;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,11 +54,10 @@ public class ProductActivity extends AppCompatActivity {
 
         productsRecycler = findViewById(R.id.productrecyler);
         productsRecycler.setHasFixedSize(true);
-        GridLayoutManager layoutManager = new GridLayoutManager(this, 3);
+        GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
         productsRecycler.setLayoutManager(layoutManager);
 
         ProductsList = new ArrayList<>();
-        Item item1 = new Item("name1", "desc1", "full desc");
 
         adapter = new ProductsAdapter(this, ProductsList);
         productsRecycler.setAdapter(adapter);
@@ -62,7 +70,36 @@ public class ProductActivity extends AppCompatActivity {
             }
         });
 
+        Query query = FirebaseDatabase.getInstance()
+                .getReference().child("Product");
+        query.keepSynced(true);
+
+
+        query.addValueEventListener(valueEventListener);
+
+
     }
+
+    ValueEventListener valueEventListener = new ValueEventListener() {
+        @Override
+        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+            ProductsList.clear();
+            if (dataSnapshot.exists()) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    Item item = snapshot.getValue(Item.class);
+                    ProductsList.add(item);
+                }
+                adapter.notifyDataSetChanged();
+
+            }
+        }
+
+
+        @Override
+        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+        }
+    };
 
     private class ProductsAdapter extends RecyclerView.Adapter<ProductsViewholder> {
         private Context mctx;
@@ -85,8 +122,19 @@ public class ProductActivity extends AppCompatActivity {
         @Override
         public void onBindViewHolder(@NonNull final ProductsViewholder productsViewholder, final int i) {
             final Item Products = ProductsList.get(i);
-            productsViewholder.itemOneDesc.setText(Products.itemOneDesc);
+//            productsViewholder.itemOneDesc.setText(Products.itemOneDesc);
             productsViewholder.itemname.setText(Products.itemName);
+            productsViewholder.itemOneDesc.setTextSize(0F);
+            Picasso.get().load(Products.image).into(productsViewholder.itemImage);
+
+            productsViewholder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent ItemIntent = new Intent(ProductActivity.this, ItemList.class);
+                    ItemIntent.putExtra("Product", ProductsList.get(i).itemName);
+                    startActivity(ItemIntent);
+                }
+            });
 
         }
 

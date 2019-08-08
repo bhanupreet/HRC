@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="2dp"
+    >
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="wrap_content">
@@ -26,7 +33,8 @@
         android:layout_marginRight="5dp"
         android:layout_marginBottom="5dp"
         android:gravity="center"
-        android:text="one line description"
+        android:text="ONE LINE DESC"
         />
 
 </LinearLayout>
+</androidx.cardview.widget.CardView>
