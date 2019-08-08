@@ -130,7 +130,7 @@ public class ProductActivity extends AppCompatActivity {
             productsViewholder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent ItemIntent = new Intent(ProductActivity.this, ItemList.class);
+                    Intent ItemIntent = new Intent(ProductActivity.this, ItemListActivity.class);
                     ItemIntent.putExtra("Product", ProductsList.get(i).itemName);
                     startActivity(ItemIntent);
                 }

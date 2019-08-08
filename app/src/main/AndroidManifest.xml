@@ -9,7 +9,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ItemList"></activity>
+        <activity android:name=".AddItemActivity"
+            android:parentActivityName=".ItemListActivity"></activity>
+        <activity android:name=".ItemPageActivity" />
+        <activity
+            android:name=".ItemListActivity"
+            android:parentActivityName=".ProductActivity" />
         <activity
             android:name=".AddProductActivity"
             android:parentActivityName=".ProductActivity" />

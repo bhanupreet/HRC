@@ -1,7 +1,7 @@
 package com.hrc.hrc;
 
 public class Item  {
-    public String itemName, itemDesc,itemOneDesc,image;
+    public String itemName, itemDesc,itemOneDesc,image, product;
 
     public  Item(){}
 
