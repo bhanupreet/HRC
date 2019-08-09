@@ -15,6 +15,7 @@
         android:layout_height="100dp"
         android:src="#212121"
         android:id="@+id/productimage"
+        android:layout_centerInParent="true"
         android:layout_margin="5dp"/>
     <TextView
         android:layout_width="match_parent"

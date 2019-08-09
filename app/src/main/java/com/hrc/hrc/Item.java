@@ -5,10 +5,11 @@ public class Item  {
 
     public  Item(){}
 
-    public Item(String itemName, String itemOneDesc, String itemDesc, String image) {
+    public Item(String itemName, String itemOneDesc, String itemDesc, String image, String product) {
         this.itemName = itemName;
         this.itemDesc = itemDesc;
         this.itemOneDesc = itemOneDesc;
         this.image = image;
+        this.product = product;
     }
 }

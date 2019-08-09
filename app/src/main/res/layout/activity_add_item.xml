@@ -29,11 +29,44 @@
             android:hint="" />
     </com.google.android.material.textfield.TextInputLayout>
 
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/item_desc_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/item_name_input"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="20dp"
+        android:hint="Item Description">
+
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="" />
+    </com.google.android.material.textfield.TextInputLayout>
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/item_descone_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/item_desc_input"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="20dp"
+        android:hint="Item One Line Description">
+
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="" />
+    </com.google.android.material.textfield.TextInputLayout>
+
     <Button
         android:id="@+id/additemuploadimagebtn"
         android:layout_width="130dp"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/item_name_input"
+        android:layout_below="@+id/item_descone_input"
         android:layout_alignParentLeft="true"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="20dp"
@@ -46,7 +79,7 @@
         android:id="@+id/additemdeleteimagebtn"
         android:layout_width="130dp"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/item_name_input"
+        android:layout_below="@+id/item_descone_input"
         android:layout_alignParentRight="true"
         android:layout_marginTop="20dp"
         android:layout_marginRight="20dp"
@@ -68,16 +101,31 @@
         android:textSize="14dp" />
 
     <Button
-        android:id="@+id/additemBtn"
+    android:id="@+id/additemBtn"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignParentBottom="true"
+    android:layout_marginTop="20dp"
+    android:layout_marginRight="20dp"
+    android:backgroundTint="#008000"
+    android:layout_centerHorizontal="true"
+    android:gravity="center"
+    android:text="Add"
+    android:textColor="#ffffff"
+    android:textSize="14dp" />
+    <Button
+        android:id="@+id/deleteitemBtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_above="@id/additemBtn"
         android:layout_marginTop="20dp"
         android:layout_marginRight="20dp"
-        android:backgroundTint="#008000"
+        android:backgroundTint="#ff0000"
         android:layout_centerHorizontal="true"
         android:gravity="center"
-        android:text="Add"
+        android:text="Delete"
+        android:visibility="invisible"
+        android:clickable="false"
         android:textColor="#ffffff"
         android:textSize="14dp" />
 

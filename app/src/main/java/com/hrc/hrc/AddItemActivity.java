@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -23,6 +24,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.annotations.NotNull;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -38,19 +40,30 @@ import id.zelory.compressor.Compressor;
 
 public class AddItemActivity extends AppCompatActivity {
 
-    private TextInputLayout mItemName;
-    private Button muploadimagebtn, mDeleteImagebtn, madditembtn;
+    private TextInputLayout mItemName, mItemDesc, mItemOneDesc;
+    private Button muploadimagebtn, mDeleteImagebtn, madditembtn, mDeletebtn;
     private TextView resultdisplay;
-    private String imagestring, prodnamestring, downloadUrl, itemstring;
+    private String imagestring = "", prodnamestring, downloadUrl, itemstring, itemrefstring;
     private ProgressDialog mProgressDialaog;
     private StorageReference mImageStorage;
     private Toolbar appbar;
+    private String mItemDescString, mItemOneDescString;
+    private DatabaseReference myRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_item);
+
         prodnamestring = getIntent().getStringExtra("product_name");
+        itemstring = getIntent().getStringExtra("itemName");
+        itemrefstring = getIntent().getStringExtra("itemRef");
+        mItemDescString = getIntent().getStringExtra("itemDesc");
+        mItemOneDescString = getIntent().getStringExtra("itemOneDesc");
+        imagestring = getIntent().getStringExtra("image");
+
+//        itemrefstring = FirebaseDatabase.getInstance().getReference().child("Items").orderByChild("itemName").equalTo(itemstring).getRef().getKey();
+
         mImageStorage = FirebaseStorage.getInstance().getReference();
 
         mItemName = findViewById(R.id.item_name_input);
@@ -59,15 +72,43 @@ public class AddItemActivity extends AppCompatActivity {
         mDeleteImagebtn = findViewById(R.id.additemdeleteimagebtn);
         madditembtn = findViewById(R.id.additemBtn);
         appbar = findViewById(R.id.additem_app_bar);
+        mDeletebtn = findViewById(R.id.deleteitemBtn);
+        mItemDesc = findViewById(R.id.item_desc_input);
+        mItemOneDesc = findViewById(R.id.item_descone_input);
+
+        if(TextUtils.isEmpty(imagestring)){
+            mDeleteImagebtn.setClickable(false);
+            mDeleteImagebtn.setVisibility(View.INVISIBLE);
+        }
+
+        if (!TextUtils.isEmpty(itemstring)) {
+            mItemName.getEditText().setText(itemstring);
+            mDeletebtn.setVisibility(View.VISIBLE);
+            mDeletebtn.setClickable(true);
+            madditembtn.setText("Update");
+        }
+        if (!TextUtils.isEmpty(imagestring)) {
+            resultdisplay.setText(imagestring);
+            mDeleteImagebtn.setClickable(true);
+            mDeleteImagebtn.setVisibility(View.VISIBLE);
+
+        }
+        if(!TextUtils.isEmpty(mItemDescString)){
+            mItemDesc.getEditText().setText(mItemDescString);
+
+        }
+        if(!TextUtils.isEmpty(mItemOneDescString)){
+            mItemOneDesc.getEditText().setText(mItemOneDescString);
+        }
 
         setSupportActionBar(appbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Add Product");
+        getSupportActionBar().setTitle("Add Item");
 
         muploadimagebtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               itemstring = mItemName.getEditText().getText().toString();
+                itemstring = mItemName.getEditText().getText().toString();
                 if (itemstring.equals("")) {
                     Toast.makeText(AddItemActivity.this, "Please enter name", Toast.LENGTH_LONG).show();
 
@@ -80,7 +121,6 @@ public class AddItemActivity extends AppCompatActivity {
         });
 
 
-
         mDeleteImagebtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -91,9 +131,12 @@ public class AddItemActivity extends AppCompatActivity {
                 alert.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
 
                     public void onClick(DialogInterface dialog, int which) {
+
+                        StorageReference filepath = mImageStorage.child("Items").child(itemstring + ".jpg");
+                        filepath.delete();
                         // continue with delete
                         imagestring = "default image";
-                        resultdisplay.setText("no image");
+                        resultdisplay.setText("");
                     }
                 });
                 alert.setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
@@ -112,16 +155,30 @@ public class AddItemActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 itemstring = mItemName.getEditText().getText().toString();
+                mItemDescString = mItemDesc.getEditText().getText().toString();
+                mItemOneDescString = mItemOneDesc.getEditText().getText().toString();
                 HashMap<String, Object> result = new HashMap<>();
 
                 if (!mItemName.equals("")) {
                     result.put("itemName", itemstring);
                 }
-                result.put("image",imagestring);
-                result.put("product_name",prodnamestring);
+                if (!mItemOneDescString.equals("")) {
+                    result.put("itemOneDesc", mItemOneDescString);
+                }
+                if (!mItemDescString.equals("")) {
+                    result.put("itemDesc", mItemDescString);
+                }
+                result.put("image", imagestring);
+
+                result.put("product_name", prodnamestring);
 
                 FirebaseDatabase database = FirebaseDatabase.getInstance();
-                DatabaseReference myRef = database.getReference().child("Items").child(itemstring);
+                if (TextUtils.isEmpty(itemrefstring)) {
+                    myRef = database.getReference().child("Items").push();
+
+                } else {
+                    myRef = database.getReference().child("Items").child(itemrefstring);
+                }
                 myRef.updateChildren(result).
 
                         addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -140,24 +197,31 @@ public class AddItemActivity extends AppCompatActivity {
                         });
 
 
+                itemrefstring = myRef.getKey();
                 Intent mainintent = new Intent(AddItemActivity.this, ItemListActivity.class);
-                mainintent.putExtra("Product",prodnamestring);
+                mainintent.putExtra("Product", prodnamestring);
                 startActivity(mainintent);
             }
 
         });
 
+        mDeletebtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-        itemstring = mItemName.getEditText().getText().toString();
+            }
+        });
+
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
 
-           itemstring = mItemName.getEditText().getText().toString();
+            itemstring = mItemName.getEditText().getText().toString();
 
-            if (itemstring.equals("")) {
+            if (TextUtils.isEmpty(itemstring)) {
                 Toast.makeText(this, "please enter name", Toast.LENGTH_LONG).show();
 
             } else {
@@ -208,6 +272,8 @@ public class AddItemActivity extends AppCompatActivity {
                                         }
                                         mProgressDialaog.dismiss();
                                         resultdisplay.setText(downloadUrl);
+                                        mDeleteImagebtn.setClickable(true);
+                                        mDeleteImagebtn.setVisibility(View.VISIBLE);
                                         Toast.makeText(AddItemActivity.this, downloadUrl, Toast.LENGTH_SHORT).show();
                                     }
                                 });

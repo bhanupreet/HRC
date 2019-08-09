@@ -122,7 +122,7 @@ public class AddProductActivity extends AppCompatActivity {
                 result.put("image",imagestring);
 
                 FirebaseDatabase database = FirebaseDatabase.getInstance();
-                DatabaseReference myRef = database.getReference().child("Product").child(prodnamestring);
+                DatabaseReference myRef = database.getReference().child("Product").push();
                 myRef.updateChildren(result).
 
                         addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -139,7 +139,7 @@ public class AddProductActivity extends AppCompatActivity {
 
                             }
                         });
-
+                    prodnamestring = myRef.getKey();
 
                 Intent mainintent = new Intent(AddProductActivity.this, ProductActivity.class);
                 startActivity(mainintent);
@@ -148,7 +148,6 @@ public class AddProductActivity extends AppCompatActivity {
         });
 
 
-        prodnamestring = mproductName.getEditText().getText().toString();
 
     }
 
@@ -161,10 +160,8 @@ public class AddProductActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
 
-            prodnamestring = mproductName.getEditText().getText().toString();
-
             if (prodnamestring == "") {
-                Toast.makeText(this, "please enter name", Toast.LENGTH_LONG).show();
+//                Toast.makeText(this, "please enter name", Toast.LENGTH_LONG).show();
 
             } else {
                 final CropImage.ActivityResult result = CropImage.getActivityResult(data);
