@@ -66,6 +66,9 @@ public class AddProductActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Add Product");
 
+        mDeleteImagebtn.setVisibility(View.INVISIBLE);
+        mDeleteImagebtn.setClickable(false);
+
         muploadimagebtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -211,6 +214,8 @@ public class AddProductActivity extends AppCompatActivity {
                                         }
                                         mProgressDialaog.dismiss();
                                         resultdisplay.setText(downloadUrl);
+                                        mDeleteImagebtn.setVisibility(View.VISIBLE);
+                                        mDeleteImagebtn.setClickable(true);
                                         Toast.makeText(AddProductActivity.this, downloadUrl, Toast.LENGTH_SHORT).show();
                                     }
                                 });

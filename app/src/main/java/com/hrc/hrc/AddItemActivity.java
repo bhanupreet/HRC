@@ -208,7 +208,33 @@ public class AddItemActivity extends AppCompatActivity {
         mDeletebtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                AlertDialog.Builder alert = new AlertDialog.Builder(AddItemActivity.this);
 
+                alert.setTitle("Delete entry");
+                alert.setMessage("Are you sure you want to delete?");
+                alert.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface dialog, int which) {
+                        // continue with delete
+                        FirebaseDatabase.getInstance().getReference().child("Items").child(itemrefstring).removeValue();
+                        FirebaseStorage storage = FirebaseStorage.getInstance();
+                        StorageReference storageRef = storage.getReference();
+                        StorageReference desertRef = storageRef.child("Items/" + itemstring + ".jpg");
+                        desertRef.delete();
+                        Intent itemListIntent = new Intent(AddItemActivity.this, ItemListActivity.class);
+                        itemListIntent.putExtra("Product", prodnamestring);
+                        startActivity(itemListIntent);
+
+
+                    }
+                });
+                alert.setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // close dialog
+                        dialog.cancel();
+                    }
+                });
+                alert.show();
             }
         });
 

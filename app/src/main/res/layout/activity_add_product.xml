@@ -75,8 +75,8 @@
         android:layout_marginTop="20dp"
         android:layout_marginRight="20dp"
         android:backgroundTint="#008000"
-        android:gravity="center"
-
+        android:layout_gravity="center"
+        android:layout_centerHorizontal="true"
         android:text="Add"
         android:textColor="#ffffff"
         android:textSize="14dp" />

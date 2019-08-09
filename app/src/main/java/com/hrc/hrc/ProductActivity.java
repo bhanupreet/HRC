@@ -1,6 +1,8 @@
 package com.hrc.hrc;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -13,6 +15,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,6 +24,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.Toolbar;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,6 +40,7 @@ public class ProductActivity extends AppCompatActivity {
     private List<Item> ProductsList;
     private ProductsAdapter adapter;
     private RecyclerView productsRecycler;
+    private String prodnamstring;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,6 +132,7 @@ public class ProductActivity extends AppCompatActivity {
             productsViewholder.itemname.setText(Products.itemName);
             productsViewholder.itemOneDesc.setTextSize(0F);
             Picasso.get().load(Products.image).into(productsViewholder.itemImage);
+            prodnamstring = ProductsList.get(i).itemName;
 
             productsViewholder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -133,6 +140,67 @@ public class ProductActivity extends AppCompatActivity {
                     Intent ItemIntent = new Intent(ProductActivity.this, ItemListActivity.class);
                     ItemIntent.putExtra("Product", ProductsList.get(i).itemName);
                     startActivity(ItemIntent);
+                }
+            });
+
+            productsViewholder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    {
+                        AlertDialog.Builder delete = new AlertDialog.Builder(ProductActivity.this);
+                        CharSequence[] options = new CharSequence[]{"Delete"};
+                        delete.setItems(options, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                                if (which == 0) {
+                                    AlertDialog.Builder alert = new AlertDialog.Builder(ProductActivity.this);
+
+                                    alert.setTitle("Delete entry");
+                                    alert.setMessage("Are you sure you want to delete?");
+                                    alert.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            // continue with delete
+                                            Query q1 = FirebaseDatabase.getInstance().getReference().child("Product").orderByChild("itemName").equalTo(prodnamstring);
+                                            q1.addListenerForSingleValueEvent(new ValueEventListener() {
+                                                @Override
+                                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                                    DataSnapshot nodeDataSnapshot = dataSnapshot.getChildren().iterator().next();
+                                                    String itemrefstring = nodeDataSnapshot.getKey();
+                                                    FirebaseDatabase.getInstance().getReference().child("Product").child(itemrefstring).removeValue();
+                                                    FirebaseStorage storage = FirebaseStorage.getInstance();
+                                                    StorageReference storageRef = storage.getReference();
+                                                    StorageReference desertRef = storageRef.child("Product/" + prodnamstring + ".jpg");
+                                                    desertRef.delete();
+                                                    Intent prodIntent = new Intent(ProductActivity.this, ProductActivity.class);
+                                                    startActivity(prodIntent);
+
+                                                }
+
+                                                @Override
+                                                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                                }
+                                            });
+
+
+                                        }
+                                    });
+                                    alert.setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            // close dialog
+                                            dialog.cancel();
+                                        }
+                                    });
+                                    alert.show();
+                                }
+                            }
+                        });
+
+                        delete.show();
+                        return true;
+                    }
                 }
             });
 
