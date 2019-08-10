@@ -76,11 +76,10 @@ public class AddItemActivity extends AppCompatActivity {
         mItemDesc = findViewById(R.id.item_desc_input);
         mItemOneDesc = findViewById(R.id.item_descone_input);
 
-        if(TextUtils.isEmpty(imagestring)){
+        if (TextUtils.isEmpty(imagestring)) {
             mDeleteImagebtn.setClickable(false);
             mDeleteImagebtn.setVisibility(View.INVISIBLE);
         }
-
         if (!TextUtils.isEmpty(itemstring)) {
             mItemName.getEditText().setText(itemstring);
             mDeletebtn.setVisibility(View.VISIBLE);
@@ -91,16 +90,13 @@ public class AddItemActivity extends AppCompatActivity {
             resultdisplay.setText(imagestring);
             mDeleteImagebtn.setClickable(true);
             mDeleteImagebtn.setVisibility(View.VISIBLE);
-
         }
-        if(!TextUtils.isEmpty(mItemDescString)){
+        if (!TextUtils.isEmpty(mItemDescString)) {
             mItemDesc.getEditText().setText(mItemDescString);
-
         }
-        if(!TextUtils.isEmpty(mItemOneDescString)){
+        if (!TextUtils.isEmpty(mItemOneDescString)) {
             mItemOneDesc.getEditText().setText(mItemOneDescString);
         }
-
         setSupportActionBar(appbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Add Item");
@@ -111,7 +107,6 @@ public class AddItemActivity extends AppCompatActivity {
                 itemstring = mItemName.getEditText().getText().toString();
                 if (itemstring.equals("")) {
                     Toast.makeText(AddItemActivity.this, "Please enter name", Toast.LENGTH_LONG).show();
-
                 } else {
                     CropImage.activity()
                             .setGuidelines(CropImageView.Guidelines.ON)
@@ -119,13 +114,10 @@ public class AddItemActivity extends AppCompatActivity {
                 }
             }
         });
-
-
         mDeleteImagebtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 AlertDialog.Builder alert = new AlertDialog.Builder(AddItemActivity.this);
-
                 alert.setTitle("Delete Image");
                 alert.setMessage("Are you sure you want to delete the image?");
                 alert.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
@@ -146,8 +138,6 @@ public class AddItemActivity extends AppCompatActivity {
                     }
                 });
                 alert.show();
-
-
             }
         });
 
@@ -169,34 +159,24 @@ public class AddItemActivity extends AppCompatActivity {
                     result.put("itemDesc", mItemDescString);
                 }
                 result.put("image", imagestring);
-
                 result.put("product_name", prodnamestring);
-
                 FirebaseDatabase database = FirebaseDatabase.getInstance();
                 if (TextUtils.isEmpty(itemrefstring)) {
                     myRef = database.getReference().child("Items").push();
-
                 } else {
                     myRef = database.getReference().child("Items").child(itemrefstring);
                 }
                 myRef.updateChildren(result).
-
                         addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 if (task.isSuccessful()) {
-
                                     Toast.makeText(AddItemActivity.this, "details added successfully", Toast.LENGTH_LONG).show();
                                 } else {
                                     Toast.makeText(AddItemActivity.this, "an error occured while uploadig data", Toast.LENGTH_SHORT).show();
-
                                 }
-                                // mProgressDialaog.dismiss();
-
                             }
                         });
-
-
                 itemrefstring = myRef.getKey();
                 Intent mainintent = new Intent(AddItemActivity.this, ItemListActivity.class);
                 mainintent.putExtra("Product", prodnamestring);
@@ -209,7 +189,6 @@ public class AddItemActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 AlertDialog.Builder alert = new AlertDialog.Builder(AddItemActivity.this);
-
                 alert.setTitle("Delete entry");
                 alert.setMessage("Are you sure you want to delete?");
                 alert.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
@@ -224,8 +203,6 @@ public class AddItemActivity extends AppCompatActivity {
                         Intent itemListIntent = new Intent(AddItemActivity.this, ItemListActivity.class);
                         itemListIntent.putExtra("Product", prodnamestring);
                         startActivity(itemListIntent);
-
-
                     }
                 });
                 alert.setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
@@ -237,7 +214,6 @@ public class AddItemActivity extends AppCompatActivity {
                 alert.show();
             }
         });
-
     }
 
     @Override
@@ -246,23 +222,18 @@ public class AddItemActivity extends AppCompatActivity {
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
 
             itemstring = mItemName.getEditText().getText().toString();
-
             if (TextUtils.isEmpty(itemstring)) {
                 Toast.makeText(this, "please enter name", Toast.LENGTH_LONG).show();
-
             } else {
                 final CropImage.ActivityResult result = CropImage.getActivityResult(data);
                 if (resultCode == RESULT_OK) {
-
                     mProgressDialaog = new ProgressDialog(AddItemActivity.this);
                     mProgressDialaog.setMessage("Please wait while we upload and process the image");
                     mProgressDialaog.setTitle("Uploading Image...");
                     mProgressDialaog.setCanceledOnTouchOutside(false);
                     mProgressDialaog.show();
                     Uri resultUri = result.getUri();
-
                     File thumb_filepath = new File(resultUri.getPath());
-
                     Bitmap thumb_bitmap = null;
                     try {
                         thumb_bitmap = new Compressor(this)
@@ -274,23 +245,17 @@ public class AddItemActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                     ByteArrayOutputStream baos = new ByteArrayOutputStream();
-
                     thumb_bitmap.compress(Bitmap.CompressFormat.JPEG, 90, baos);
                     byte[] thumb_byte = baos.toByteArray();
-
                     StorageReference filepath = mImageStorage.child("Items").child(itemstring + ".jpg");
-
                     UploadTask uploadTask = filepath.putBytes(thumb_byte);
                     uploadTask.addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
-
                             if (task.isSuccessful()) {
-
                                 mImageStorage.child("Items").child(itemstring + ".jpg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                     @Override
                                     public void onSuccess(Uri uri) {
-
                                         downloadUrl = uri.toString();
                                         if (!downloadUrl.equals("")) {
                                             imagestring = downloadUrl;
@@ -303,11 +268,9 @@ public class AddItemActivity extends AppCompatActivity {
                                         Toast.makeText(AddItemActivity.this, downloadUrl, Toast.LENGTH_SHORT).show();
                                     }
                                 });
-
                             }
                         }
                     });
-
                 } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
                     Exception error = result.getError();
                     mProgressDialaog.dismiss();

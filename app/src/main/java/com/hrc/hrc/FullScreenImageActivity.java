@@ -15,13 +15,12 @@ public class FullScreenImageActivity extends AppCompatActivity {
 
     private PhotoView fullscreenphoto;
     private androidx.appcompat.widget.Toolbar mToolbar;
-    private String itemstring,imagestring,prodnamestring,itemrefstring,mItemDescString,mItemOneDescString;
+    private String itemstring, imagestring, prodnamestring, itemrefstring, mItemDescString, mItemOneDescString;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_full_screen_image);
-
 
         prodnamestring = getIntent().getStringExtra("product_name");
         itemstring = getIntent().getStringExtra("itemName");
@@ -48,10 +47,8 @@ public class FullScreenImageActivity extends AppCompatActivity {
                 ItemPageIntent.putExtra("itemOneDesc", mItemOneDescString);
                 ItemPageIntent.putExtra("image", imagestring);
                 startActivity(ItemPageIntent);
-
             }
         });
-
         Picasso.get().load(imagestring).into(fullscreenphoto);
     }
 }

@@ -35,7 +35,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ItemListActivity extends AppCompatActivity {
-    private String mProductName ;
+    private String mProductName;
     private RecyclerView mItemListRecycler;
     private FloatingActionButton mItemaddBtn;
     private Toolbar mItemListAppBar;
@@ -140,7 +140,7 @@ public class ItemListActivity extends AppCompatActivity {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             DataSnapshot nodeDataSnapshot = dataSnapshot.getChildren().iterator().next();
-                            String  itemrefstring = nodeDataSnapshot.getKey(); // this key is `K1NRz9l5PU_0CFDtgXz`
+                            String itemrefstring = nodeDataSnapshot.getKey(); // this key is `K1NRz9l5PU_0CFDtgXz`
                             Log.d("itemkey", itemrefstring);
                             Intent ItemPageIntent = new Intent(ItemListActivity.this, ItemPageActivity.class);
                             ItemPageIntent.putExtra("product_name", mProductName);
@@ -174,12 +174,12 @@ public class ItemListActivity extends AppCompatActivity {
 
                                 String itemnamestring = mItemList.get(i).itemName;
 
-                                 Query itemref = FirebaseDatabase.getInstance().getReference().child("Items").orderByChild("itemName").equalTo(itemnamestring);
-                                 itemref.addListenerForSingleValueEvent(new ValueEventListener() {
+                                Query itemref = FirebaseDatabase.getInstance().getReference().child("Items").orderByChild("itemName").equalTo(itemnamestring);
+                                itemref.addListenerForSingleValueEvent(new ValueEventListener() {
                                     @Override
                                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                         DataSnapshot nodeDataSnapshot = dataSnapshot.getChildren().iterator().next();
-                                       String  itemrefstring = nodeDataSnapshot.getKey(); // this key is `K1NRz9l5PU_0CFDtgXz`
+                                        String itemrefstring = nodeDataSnapshot.getKey(); // this key is `K1NRz9l5PU_0CFDtgXz`
                                         Log.d("itemkey", itemrefstring);
                                         Intent AddItemIntent = new Intent(ItemListActivity.this, AddItemActivity.class);
                                         AddItemIntent.putExtra("product_name", mProductName);
@@ -194,7 +194,6 @@ public class ItemListActivity extends AppCompatActivity {
 
                                     @Override
                                     public void onCancelled(@NonNull DatabaseError databaseError) {
-
                                     }
                                 });
                             }
@@ -205,8 +204,6 @@ public class ItemListActivity extends AppCompatActivity {
                     return true;
                 }
             });
-
-
         }
 
         @Override

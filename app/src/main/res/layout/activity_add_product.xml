@@ -81,5 +81,21 @@
         android:textColor="#ffffff"
         android:textSize="14dp" />
 
+    <Button
+        android:id="@+id/deleteprodBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/addProdBtn"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="20dp"
+        android:backgroundTint="#ff0000"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:text="Delete"
+        android:visibility="invisible"
+        android:clickable="false"
+        android:textColor="#ffffff"
+        android:textSize="14dp" />
+
 
 </RelativeLayout>

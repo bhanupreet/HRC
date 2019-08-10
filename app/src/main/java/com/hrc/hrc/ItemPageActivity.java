@@ -15,7 +15,7 @@ import com.squareup.picasso.Picasso;
 
 public class ItemPageActivity extends AppCompatActivity {
 
-    String prodnamestring,itemstring,itemrefstring,mItemDescString,mItemOneDescString,imagestring;
+    String prodnamestring, itemstring, itemrefstring, mItemDescString, mItemOneDescString, imagestring;
     private TextView mItemName, mItemDesc;
     private ImageView mItemImage;
     private Toolbar mitempage_appbar;
@@ -49,7 +49,7 @@ public class ItemPageActivity extends AppCompatActivity {
         mItemImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent fullscreenIntent = new Intent(ItemPageActivity.this,FullScreenImageActivity.class);
+                Intent fullscreenIntent = new Intent(ItemPageActivity.this, FullScreenImageActivity.class);
                 fullscreenIntent.putExtra("product_name", prodnamestring);
                 fullscreenIntent.putExtra("itemName", itemstring);
                 fullscreenIntent.putExtra("itemRef", itemrefstring);
@@ -60,10 +60,11 @@ public class ItemPageActivity extends AppCompatActivity {
             }
         });
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
 
             case android.R.id.home:
                 Log.d("backbutton", "cheguei");

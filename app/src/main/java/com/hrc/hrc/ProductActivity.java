@@ -53,7 +53,6 @@ public class ProductActivity extends AppCompatActivity {
         addBtn = findViewById(R.id.productaddBtn);
         productAppBar = findViewById(R.id.productappbar);
 
-
         setSupportActionBar(productAppBar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Products");
@@ -79,11 +78,7 @@ public class ProductActivity extends AppCompatActivity {
         Query query = FirebaseDatabase.getInstance()
                 .getReference().child("Product");
         query.keepSynced(true);
-
-
         query.addValueEventListener(valueEventListener);
-
-
     }
 
     ValueEventListener valueEventListener = new ValueEventListener() {
@@ -96,21 +91,17 @@ public class ProductActivity extends AppCompatActivity {
                     ProductsList.add(item);
                 }
                 adapter.notifyDataSetChanged();
-
             }
         }
 
-
         @Override
         public void onCancelled(@NonNull DatabaseError databaseError) {
-
         }
     };
 
     private class ProductsAdapter extends RecyclerView.Adapter<ProductsViewholder> {
         private Context mctx;
         private List<Item> itemList;
-
 
         public ProductsAdapter(Context mctx, List<Item> itemList) {
             this.mctx = mctx;
@@ -122,7 +113,6 @@ public class ProductActivity extends AppCompatActivity {
         public ProductsViewholder onCreateViewHolder(@NonNull ViewGroup parent, int i) {
             View view = LayoutInflater.from(mctx).inflate(R.layout.single_item_layout, parent, false);
             return new ProductsViewholder(view);
-
         }
 
         @Override
@@ -148,69 +138,42 @@ public class ProductActivity extends AppCompatActivity {
                 public boolean onLongClick(View v) {
                     {
                         AlertDialog.Builder delete = new AlertDialog.Builder(ProductActivity.this);
-                        CharSequence[] options = new CharSequence[]{"Delete"};
+                        CharSequence[] options = new CharSequence[]{"Edit"};
                         delete.setItems(options, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-
                                 if (which == 0) {
-                                    AlertDialog.Builder alert = new AlertDialog.Builder(ProductActivity.this);
+                                    Query q1 = FirebaseDatabase.getInstance().getReference().child("Product").orderByChild("itemName").equalTo(prodnamstring);
+                                    q1.addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                            DataSnapshot nodeDataSnapshot = dataSnapshot.getChildren().iterator().next();
+                                            String itemrefstring = nodeDataSnapshot.getKey();
+                                            Intent prodIntent = new Intent(ProductActivity.this, AddProductActivity.class);
+                                            prodIntent.putExtra("product_name", prodnamstring);
+                                            prodIntent.putExtra("prod_ref", itemrefstring);
+                                            prodIntent.putExtra("image", Products.image);
+                                            startActivity(prodIntent);
+                                        }
 
-                                    alert.setTitle("Delete entry");
-                                    alert.setMessage("Are you sure you want to delete?");
-                                    alert.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            // continue with delete
-                                            Query q1 = FirebaseDatabase.getInstance().getReference().child("Product").orderByChild("itemName").equalTo(prodnamstring);
-                                            q1.addListenerForSingleValueEvent(new ValueEventListener() {
-                                                @Override
-                                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                                    DataSnapshot nodeDataSnapshot = dataSnapshot.getChildren().iterator().next();
-                                                    String itemrefstring = nodeDataSnapshot.getKey();
-                                                    FirebaseDatabase.getInstance().getReference().child("Product").child(itemrefstring).removeValue();
-                                                    FirebaseStorage storage = FirebaseStorage.getInstance();
-                                                    StorageReference storageRef = storage.getReference();
-                                                    StorageReference desertRef = storageRef.child("Product/" + prodnamstring + ".jpg");
-                                                    desertRef.delete();
-                                                    Intent prodIntent = new Intent(ProductActivity.this, ProductActivity.class);
-                                                    startActivity(prodIntent);
-
-                                                }
-
-                                                @Override
-                                                public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                                                }
-                                            });
-
-
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError databaseError) {
                                         }
                                     });
-                                    alert.setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            // close dialog
-                                            dialog.cancel();
-                                        }
-                                    });
-                                    alert.show();
                                 }
                             }
                         });
-
                         delete.show();
                         return true;
                     }
                 }
             });
-
         }
 
         @Override
         public int getItemCount() {
             return ProductsList.size();
         }
-
     }
 
     private class ProductsViewholder extends RecyclerView.ViewHolder {
