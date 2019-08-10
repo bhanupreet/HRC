@@ -150,7 +150,7 @@ public class ItemListActivity extends AppCompatActivity {
                     searchItemsList.clear();
                     for (Item item : allItemslist) {
                         if (!TextUtils.isEmpty(item.itemName) && !TextUtils.isEmpty(item.itemDesc)) {
-                            if (item.itemName.toLowerCase().contains(newText) || item.itemDesc.toLowerCase().contains(newText)) {
+                            if (item.itemName.toLowerCase().contains(newText) || item.itemDesc.toLowerCase().contains(newText) || item.itemOneDesc.toLowerCase().contains(newText)) {
                                 searchItemsList.add(item);
                             }
                         }

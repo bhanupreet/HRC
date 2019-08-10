@@ -40,6 +40,23 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(ProductIntent);
             }
         });
+
+        aboutUsBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent AboutUsIntent = new Intent(MainActivity.this, AboutUsActivity.class);
+                startActivity(AboutUsIntent);
+            }
+        });
+
+        contactUsBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent ContactUsIntent = new Intent(MainActivity.this, ContactUsActivity.class);
+                startActivity(ContactUsIntent);
+            }
+        });
+
     }
 
 

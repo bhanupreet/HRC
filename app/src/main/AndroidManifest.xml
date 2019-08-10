@@ -9,8 +9,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".FullScreenImageActivity"
-            android:parentActivityName=".ItemPageActivity"></activity>
+        <activity
+            android:name=".ContactUsActivity"
+            android:parentActivityName=".MainActivity"></activity>
+        <activity
+            android:name=".AboutUsActivity"
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".FullScreenImageActivity"
+            android:parentActivityName=".ItemPageActivity" />
         <activity
             android:name=".AddItemActivity"
             android:parentActivityName=".ItemListActivity" />
