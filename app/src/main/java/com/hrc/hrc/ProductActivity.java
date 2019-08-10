@@ -1,6 +1,7 @@
 package com.hrc.hrc;
 
 import android.app.AlertDialog;
+import android.app.SearchManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -24,11 +25,15 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.Toolbar;
 
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.SearchView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -37,7 +42,7 @@ import java.util.List;
 public class ProductActivity extends AppCompatActivity {
     private FloatingActionButton addBtn;
     private Toolbar productAppBar;
-    private List<Item> ProductsList;
+    private List<Item> ProductsList, ProductsearchList;
     private ProductsAdapter adapter;
     private RecyclerView productsRecycler;
     private String prodnamstring;
@@ -52,6 +57,8 @@ public class ProductActivity extends AppCompatActivity {
 
         addBtn = findViewById(R.id.productaddBtn);
         productAppBar = findViewById(R.id.productappbar);
+
+        ProductsearchList = new ArrayList<>();
 
         setSupportActionBar(productAppBar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -79,6 +86,96 @@ public class ProductActivity extends AppCompatActivity {
                 .getReference().child("Product");
         query.keepSynced(true);
         query.addValueEventListener(valueEventListener);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        //return super.onCreateOptionsMenu(menu);
+
+        getMenuInflater().inflate(R.menu.search_actions, menu);
+
+        MenuItem searchViewItem = menu.findItem(R.id.action_search);
+        // Get the SearchView and set the searchable configuration
+        final SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        final SearchView searchView = (SearchView) searchViewItem.getActionView();
+        searchView.setQueryHint("Search");
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        searchView.setIconifiedByDefault(true);// Do not iconify the widget; expand it by default
+
+        SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener() {
+            public boolean onQueryTextChange(final String newText) {
+
+                if (newText.equals("")) {
+//                    ProductsList.clear();
+//                    for(Item item : ProductsList){
+//                        ProductsList.add(item);
+//                    }
+                    adapter.notifyDataSetChanged();
+
+                    return true;
+                } else {
+//                    ProductsList.clear();
+//                    for(Item item : ProductsList){
+//                        ProductsList.add(item);
+//                    }
+//                    adapter.notifyDataSetChanged();
+                    //  search(newText);
+                    // This is your adapter that will be filtered
+
+                    ProductsearchList.clear();
+                    for (Item item : ProductsList) {
+                        if (!TextUtils.isEmpty(item.itemName)) {
+                            if (item.itemName.toLowerCase().contains(newText)) {
+                                ProductsearchList.add(item);
+                            }
+                        }
+                    }
+                    ProductsList.clear();
+                    for (Item item : ProductsearchList) {
+                        ProductsList.add(item);
+                    }
+                    adapter.notifyDataSetChanged();
+                    return true;
+                }
+
+            }
+
+            public boolean onQueryTextSubmit(final String query) {
+                if (query.equals("")) {
+                    ProductsList.clear();
+                    for (Item item : ProductsList) {
+                        ProductsList.add(item);
+                    }
+                    adapter.notifyDataSetChanged();
+
+                    return true;
+                } else {
+                    ProductsList.clear();
+                    for (Item item : ProductsList) {
+                        ProductsList.add(item);
+                    }
+                    adapter.notifyDataSetChanged();
+                    //  search(newText);
+                    // This is your adapter that will be filtered
+                    ProductsList.clear();
+                    for (Item item : ProductsList) {
+                        if (item.itemName.toLowerCase().contains(query) || item.itemDesc.toLowerCase().contains(query.toLowerCase())) {
+                            ProductsList.add(item);
+                        }
+                    }
+                    ProductsList.clear();
+                    for (Item item : ProductsList) {
+                        ProductsList.add(item);
+                    }
+                    adapter.notifyDataSetChanged();
+                    return true;
+                }
+
+            }
+        };
+        searchView.setOnQueryTextListener(queryTextListener);
+
+        return true;
     }
 
     ValueEventListener valueEventListener = new ValueEventListener() {

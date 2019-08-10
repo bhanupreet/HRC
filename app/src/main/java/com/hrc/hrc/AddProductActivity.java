@@ -211,6 +211,7 @@ public class AddProductActivity extends AppCompatActivity {
                                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                                         String key = snapshot.getKey();
                                         String itemName = snapshot.child("itemName").getValue().toString();
+
                                         FirebaseDatabase.getInstance().getReference().child("Items").child(key).removeValue();
                                         FirebaseStorage storage = FirebaseStorage.getInstance();
                                         StorageReference storageRef = storage.getReference();
@@ -226,8 +227,9 @@ public class AddProductActivity extends AppCompatActivity {
                             }
                         });
 
-                        
+
 //code to delete item end
+
                         Intent prodIntent = new Intent(AddProductActivity.this, ProductActivity.class);
                         startActivity(prodIntent);
                     }
@@ -242,7 +244,6 @@ public class AddProductActivity extends AppCompatActivity {
             }
         });
     }
-
 
 
     @Override
@@ -298,6 +299,7 @@ public class AddProductActivity extends AppCompatActivity {
                             }
                         }
                     });
+
                 } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
                     Exception error = result.getError();
                     mProgressDialaog.dismiss();
