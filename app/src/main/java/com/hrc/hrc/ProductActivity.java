@@ -42,7 +42,7 @@ import java.util.List;
 public class ProductActivity extends AppCompatActivity {
     private FloatingActionButton addBtn;
     private Toolbar productAppBar;
-    private List<Item> ProductsList, ProductsearchList;
+    private List<Item> ProductsList, ProductsearchList, allProductslist;
     private ProductsAdapter adapter;
     private RecyclerView productsRecycler;
     private String prodnamstring;
@@ -59,6 +59,7 @@ public class ProductActivity extends AppCompatActivity {
         productAppBar = findViewById(R.id.productappbar);
 
         ProductsearchList = new ArrayList<>();
+        allProductslist = new ArrayList<>();
 
         setSupportActionBar(productAppBar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -102,28 +103,24 @@ public class ProductActivity extends AppCompatActivity {
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         searchView.setIconifiedByDefault(true);// Do not iconify the widget; expand it by default
 
+        for (Item item : ProductsList) {
+            allProductslist.add(item);
+        }
+
         SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener() {
             public boolean onQueryTextChange(final String newText) {
 
                 if (newText.equals("")) {
-//                    ProductsList.clear();
-//                    for(Item item : ProductsList){
-//                        ProductsList.add(item);
-//                    }
+                    ProductsList.clear();
+                    for (Item item : allProductslist) {
+                        ProductsList.add(item);
+                    }
                     adapter.notifyDataSetChanged();
 
                     return true;
                 } else {
-//                    ProductsList.clear();
-//                    for(Item item : ProductsList){
-//                        ProductsList.add(item);
-//                    }
-//                    adapter.notifyDataSetChanged();
-                    //  search(newText);
-                    // This is your adapter that will be filtered
-
                     ProductsearchList.clear();
-                    for (Item item : ProductsList) {
+                    for (Item item : allProductslist) {
                         if (!TextUtils.isEmpty(item.itemName)) {
                             if (item.itemName.toLowerCase().contains(newText)) {
                                 ProductsearchList.add(item);
@@ -137,34 +134,28 @@ public class ProductActivity extends AppCompatActivity {
                     adapter.notifyDataSetChanged();
                     return true;
                 }
-
             }
 
-            public boolean onQueryTextSubmit(final String query) {
-                if (query.equals("")) {
+            public boolean onQueryTextSubmit(final String newText) {
+                if (newText.equals("")) {
                     ProductsList.clear();
-                    for (Item item : ProductsList) {
+                    for (Item item : allProductslist) {
                         ProductsList.add(item);
                     }
                     adapter.notifyDataSetChanged();
 
                     return true;
                 } else {
-                    ProductsList.clear();
-                    for (Item item : ProductsList) {
-                        ProductsList.add(item);
-                    }
-                    adapter.notifyDataSetChanged();
-                    //  search(newText);
-                    // This is your adapter that will be filtered
-                    ProductsList.clear();
-                    for (Item item : ProductsList) {
-                        if (item.itemName.toLowerCase().contains(query) || item.itemDesc.toLowerCase().contains(query.toLowerCase())) {
-                            ProductsList.add(item);
+                    ProductsearchList.clear();
+                    for (Item item : allProductslist) {
+                        if (!TextUtils.isEmpty(item.itemName)) {
+                            if (item.itemName.toLowerCase().contains(newText)) {
+                                ProductsearchList.add(item);
+                            }
                         }
                     }
                     ProductsList.clear();
-                    for (Item item : ProductsList) {
+                    for (Item item : ProductsearchList) {
                         ProductsList.add(item);
                     }
                     adapter.notifyDataSetChanged();

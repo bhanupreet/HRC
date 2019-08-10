@@ -8,15 +8,20 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
+import android.app.SearchManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.SearchView;
 import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -39,7 +44,7 @@ public class ItemListActivity extends AppCompatActivity {
     private RecyclerView mItemListRecycler;
     private FloatingActionButton mItemaddBtn;
     private Toolbar mItemListAppBar;
-    private List<Item> mItemList;
+    private List<Item> mItemList, allItemslist, searchItemsList;
     private ItemListAdapter adapter;
 
 
@@ -61,6 +66,8 @@ public class ItemListActivity extends AppCompatActivity {
         adapter = new ItemListAdapter(this, mItemList);
         mItemListRecycler.setAdapter(adapter);
 
+        allItemslist = new ArrayList<>();
+        searchItemsList = new ArrayList<>();
 
         mItemListAppBar = findViewById(R.id.itemlistappbar);
         setSupportActionBar(mItemListAppBar);
@@ -72,6 +79,9 @@ public class ItemListActivity extends AppCompatActivity {
         query.keepSynced(true);
         query.addValueEventListener(valueEventListener);
 
+        Query searchquery = FirebaseDatabase.getInstance().getReference().child("Items");
+        searchquery.addValueEventListener(searchvalueEventListener);
+
         mItemaddBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -81,6 +91,83 @@ public class ItemListActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        //return super.onCreateOptionsMenu(menu);
+
+        getMenuInflater().inflate(R.menu.search_actions, menu);
+
+        MenuItem searchViewItem = menu.findItem(R.id.action_search);
+        // Get the SearchView and set the searchable configuration
+        final SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        final SearchView searchView = (SearchView) searchViewItem.getActionView();
+        searchView.setQueryHint("Search");
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        searchView.setIconifiedByDefault(true);// Do not iconify the widget; expand it by default
+
+        SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener() {
+            public boolean onQueryTextChange(final String newText) {
+
+                if (newText.equals("")) {
+                    mItemList.clear();
+                    for (Item item : allItemslist) {
+                        mItemList.add(item);
+                    }
+                    adapter.notifyDataSetChanged();
+
+                    return true;
+                } else {
+                    searchItemsList.clear();
+                    for (Item item : allItemslist) {
+                        if (!TextUtils.isEmpty(item.itemName) && !TextUtils.isEmpty(item.itemDesc)) {
+                            if (item.itemName.toLowerCase().contains(newText) || item.itemDesc.toLowerCase().contains(newText)) {
+                                searchItemsList.add(item);
+                            }
+                        }
+                    }
+                    mItemList.clear();
+                    for (Item item : searchItemsList) {
+                        mItemList.add(item);
+                    }
+                    adapter.notifyDataSetChanged();
+                    return true;
+                }
+            }
+
+            public boolean onQueryTextSubmit(final String newText) {
+
+                if (newText.equals("")) {
+                    mItemList.clear();
+                    for (Item item : allItemslist) {
+                        mItemList.add(item);
+                    }
+                    adapter.notifyDataSetChanged();
+
+                    return true;
+                } else {
+                    searchItemsList.clear();
+                    for (Item item : allItemslist) {
+                        if (!TextUtils.isEmpty(item.itemName) && !TextUtils.isEmpty(item.itemDesc)) {
+                            if (item.itemName.toLowerCase().contains(newText) || item.itemDesc.toLowerCase().contains(newText)) {
+                                searchItemsList.add(item);
+                            }
+                        }
+                    }
+                    mItemList.clear();
+                    for (Item item : searchItemsList) {
+                        mItemList.add(item);
+                    }
+                    adapter.notifyDataSetChanged();
+                    return true;
+                }
+
+            }
+        };
+        searchView.setOnQueryTextListener(queryTextListener);
+
+        return true;
     }
 
     ValueEventListener valueEventListener = new ValueEventListener() {
@@ -105,6 +192,24 @@ public class ItemListActivity extends AppCompatActivity {
         }
     };
 
+    ValueEventListener searchvalueEventListener = new ValueEventListener() {
+        @Override
+        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+            allItemslist.clear();
+            if (dataSnapshot.exists()) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    Item item = snapshot.getValue(Item.class);
+                    allItemslist.add(item);
+
+                }
+            }
+        }
+
+        @Override
+        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+        }
+    };
 
     private class ItemListAdapter extends RecyclerView.Adapter<ItemListViewHolder> {
 
