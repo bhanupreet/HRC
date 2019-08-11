@@ -117,7 +117,7 @@ public class AddProductActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         // continue with delete
                         imagestring = "default image";
-                        resultdisplay.setText("no image");
+                        resultdisplay.setText("default image");
                     }
                 });
                 alert.setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
@@ -133,21 +133,18 @@ public class AddProductActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                FirebaseDatabase database = FirebaseDatabase.getInstance();
-
-                if (TextUtils.isEmpty(prodnamestring)) {
-                    myRef = database.getReference().child("Product").push();
-                } else {
-                    myRef = database.getReference().child("Product").child(prodrefstring);
-                }
                 newprodnamestring = mproductName.getEditText().getText().toString();
+                prodrefstring = myRef.getKey();
 
                 HashMap<String, Object> result = new HashMap<>();
                 if (!TextUtils.isEmpty(newprodnamestring)) {
                     result.put("itemName", newprodnamestring);
                 }
-                result.put("image", imagestring);
-
+                if (!TextUtils.isEmpty(imagestring)) {
+                    result.put("image", imagestring);
+                } else {
+                    result.put("image", "default image");
+                }
                 myRef.updateChildren(result).
                         addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
@@ -160,7 +157,7 @@ public class AddProductActivity extends AppCompatActivity {
                                 // mProgressDialaog.dismiss();
                             }
                         });
-//                prodnamestring = myRef.getKey();
+                prodrefstring = myRef.getKey();
 
                 if (!TextUtils.isEmpty(prodnamestring)) {
                     FirebaseDatabase.getInstance().getReference().child("Items").orderByChild("product_name").equalTo(prodnamestring).addValueEventListener(new ValueEventListener() {
@@ -199,12 +196,12 @@ public class AddProductActivity extends AppCompatActivity {
                         FirebaseDatabase.getInstance().getReference().child("Product").child(prodrefstring).removeValue();
                         FirebaseStorage storage = FirebaseStorage.getInstance();
                         StorageReference storageRef = storage.getReference();
-                        StorageReference desertRef = storageRef.child("Product/" + prodnamestring + ".jpg");
+                        StorageReference desertRef = storageRef.child("Product/" + prodrefstring + ".jpg");
                         desertRef.delete();
 //code to delete items
 
 
-                        FirebaseDatabase.getInstance().getReference().child("Items").orderByChild("product_name").equalTo(prodnamestring).addValueEventListener(new ValueEventListener() {
+                        FirebaseDatabase.getInstance().getReference().child("Items").orderByChild("product_name").equalTo(prodrefstring).addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                 if (dataSnapshot.exists()) {
@@ -215,7 +212,7 @@ public class AddProductActivity extends AppCompatActivity {
                                         FirebaseDatabase.getInstance().getReference().child("Items").child(key).removeValue();
                                         FirebaseStorage storage = FirebaseStorage.getInstance();
                                         StorageReference storageRef = storage.getReference();
-                                        StorageReference desertRef = storageRef.child("Items/" + itemName + ".jpg");
+                                        StorageReference desertRef = storageRef.child("Items/" + key + ".jpg");
                                         desertRef.delete();
                                     }
                                 }
@@ -250,61 +247,66 @@ public class AddProductActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
-            if (newprodnamestring == "") {
-                Toast.makeText(this, "please enter name", Toast.LENGTH_LONG).show();
-            } else {
-                final CropImage.ActivityResult result = CropImage.getActivityResult(data);
-                if (resultCode == RESULT_OK) {
-                    mProgressDialaog = new ProgressDialog(AddProductActivity.this);
-                    mProgressDialaog.setMessage("Please wait while we upload and process the image");
-                    mProgressDialaog.setTitle("Uploading Image...");
-                    mProgressDialaog.setCanceledOnTouchOutside(false);
-                    mProgressDialaog.show();
-                    Uri resultUri = result.getUri();
-                    File thumb_filepath = new File(resultUri.getPath());
-                    Bitmap thumb_bitmap = null;
-                    try {
-                        thumb_bitmap = new Compressor(this)
-                                .setMaxWidth(250)
-                                .setMaxHeight(250)
-                                .setQuality(70)
-                                .compressToBitmap(thumb_filepath);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                    thumb_bitmap.compress(Bitmap.CompressFormat.JPEG, 90, baos);
-                    byte[] thumb_byte = baos.toByteArray();
-                    StorageReference filepath = mImageStorage.child("Product").child(newprodnamestring + ".jpg");
-                    UploadTask uploadTask = filepath.putBytes(thumb_byte);
-                    uploadTask.addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
-                            if (task.isSuccessful()) {
-                                mImageStorage.child("Product").child(newprodnamestring + ".jpg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                    @Override
-                                    public void onSuccess(Uri uri) {
-                                        downloadUrl = uri.toString();
-                                        if (!downloadUrl.equals("")) {
-                                            imagestring = downloadUrl;
-                                            mProgressDialaog.dismiss();
-                                        }
-                                        mProgressDialaog.dismiss();
-                                        resultdisplay.setText(downloadUrl);
-                                        mDeleteImagebtn.setVisibility(View.VISIBLE);
-                                        mDeleteImagebtn.setClickable(true);
-                                        Toast.makeText(AddProductActivity.this, downloadUrl, Toast.LENGTH_SHORT).show();
-                                    }
-                                });
-                            }
-                        }
-                    });
-
-                } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
-                    Exception error = result.getError();
-                    mProgressDialaog.dismiss();
+            final CropImage.ActivityResult result = CropImage.getActivityResult(data);
+            if (resultCode == RESULT_OK) {
+                mProgressDialaog = new ProgressDialog(AddProductActivity.this);
+                mProgressDialaog.setMessage("Please wait while we upload and process the image");
+                mProgressDialaog.setTitle("Uploading Image...");
+                mProgressDialaog.setCanceledOnTouchOutside(false);
+                mProgressDialaog.show();
+                Uri resultUri = result.getUri();
+                File thumb_filepath = new File(resultUri.getPath());
+                Bitmap thumb_bitmap = null;
+                try {
+                    thumb_bitmap = new Compressor(this)
+                            .setMaxWidth(250)
+                            .setMaxHeight(250)
+                            .setQuality(70)
+                            .compressToBitmap(thumb_filepath);
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                thumb_bitmap.compress(Bitmap.CompressFormat.JPEG, 90, baos);
+                byte[] thumb_byte = baos.toByteArray();
+                FirebaseDatabase database = FirebaseDatabase.getInstance();
+
+                if (TextUtils.isEmpty(prodrefstring)) {
+                    myRef = database.getReference().child("Product").push();
+                } else {
+                    myRef = database.getReference().child("Product").child(prodrefstring);
+                }
+                prodrefstring = myRef.getKey();
+                StorageReference filepath = mImageStorage.child("Product").child(prodrefstring + ".jpg");
+                UploadTask uploadTask = filepath.putBytes(thumb_byte);
+                uploadTask.addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            mImageStorage.child("Product").child(prodrefstring + ".jpg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                @Override
+                                public void onSuccess(Uri uri) {
+                                    downloadUrl = uri.toString();
+                                    if (!downloadUrl.equals("")) {
+                                        imagestring = downloadUrl;
+                                        mProgressDialaog.dismiss();
+                                    }
+                                    mProgressDialaog.dismiss();
+                                    resultdisplay.setText(downloadUrl);
+                                    mDeleteImagebtn.setVisibility(View.VISIBLE);
+                                    mDeleteImagebtn.setClickable(true);
+                                    Toast.makeText(AddProductActivity.this, downloadUrl, Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        }
+                    }
+                });
+
+            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+                Exception error = result.getError();
+                mProgressDialaog.dismiss();
             }
+
         }
     }
 }

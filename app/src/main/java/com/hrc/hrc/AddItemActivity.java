@@ -149,23 +149,40 @@ public class AddItemActivity extends AppCompatActivity {
                 mItemOneDescString = mItemOneDesc.getEditText().getText().toString();
                 HashMap<String, Object> result = new HashMap<>();
 
-                if (!mItemName.equals("")) {
+                if (!TextUtils.isEmpty(itemstring)) {
                     result.put("itemName", itemstring);
                 }
-                if (!mItemOneDescString.equals("")) {
+
+                if (!TextUtils.isEmpty(mItemOneDescString)) {
+                    result.put("itemOneDesc", mItemOneDescString);
+
+                } else if (TextUtils.isEmpty(mItemOneDescString) && !TextUtils.isEmpty(mItemDescString)) {
+                    mItemOneDescString = mItemDescString.substring(0, Math.min(mItemDescString.length(), 30));
                     result.put("itemOneDesc", mItemOneDescString);
                 }
+
                 if (!mItemDescString.equals("")) {
                     result.put("itemDesc", mItemDescString);
                 }
-                result.put("image", imagestring);
-                result.put("product_name", prodnamestring);
-                FirebaseDatabase database = FirebaseDatabase.getInstance();
-                if (TextUtils.isEmpty(itemrefstring)) {
-                    myRef = database.getReference().child("Items").push();
+
+                if (TextUtils.isEmpty(imagestring)) {
+                    FirebaseDatabase database = FirebaseDatabase.getInstance();
+
+                    if (TextUtils.isEmpty(itemrefstring)) {
+
+                        myRef = database.getReference().child("Items").push();
+                    } else {
+                        myRef = database.getReference().child("Items").child(itemrefstring);
+                    }
+                    result.put("image", "default image");
+
                 } else {
-                    myRef = database.getReference().child("Items").child(itemrefstring);
+                    result.put("image", imagestring);
                 }
+
+                result.put("product_name", prodnamestring);
+
+
                 myRef.updateChildren(result).
                         addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
@@ -198,7 +215,7 @@ public class AddItemActivity extends AppCompatActivity {
                         FirebaseDatabase.getInstance().getReference().child("Items").child(itemrefstring).removeValue();
                         FirebaseStorage storage = FirebaseStorage.getInstance();
                         StorageReference storageRef = storage.getReference();
-                        StorageReference desertRef = storageRef.child("Items/" + itemstring + ".jpg");
+                        StorageReference desertRef = storageRef.child("Items/" + itemrefstring + ".jpg");
                         desertRef.delete();
                         Intent itemListIntent = new Intent(AddItemActivity.this, ItemListActivity.class);
                         itemListIntent.putExtra("Product", prodnamestring);
@@ -247,13 +264,20 @@ public class AddItemActivity extends AppCompatActivity {
                     ByteArrayOutputStream baos = new ByteArrayOutputStream();
                     thumb_bitmap.compress(Bitmap.CompressFormat.JPEG, 90, baos);
                     byte[] thumb_byte = baos.toByteArray();
-                    StorageReference filepath = mImageStorage.child("Items").child(itemstring + ".jpg");
+                    FirebaseDatabase database = FirebaseDatabase.getInstance();
+                    if (TextUtils.isEmpty(itemrefstring)) {
+                        myRef = database.getReference().child("Items").push();
+                    } else {
+                        myRef = database.getReference().child("Items").child(itemrefstring);
+                    }
+                    itemrefstring = myRef.getKey();
+                    StorageReference filepath = mImageStorage.child("Items").child(itemrefstring + ".jpg");
                     UploadTask uploadTask = filepath.putBytes(thumb_byte);
                     uploadTask.addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
                             if (task.isSuccessful()) {
-                                mImageStorage.child("Items").child(itemstring + ".jpg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                mImageStorage.child("Items").child(itemrefstring + ".jpg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                     @Override
                                     public void onSuccess(Uri uri) {
                                         downloadUrl = uri.toString();
