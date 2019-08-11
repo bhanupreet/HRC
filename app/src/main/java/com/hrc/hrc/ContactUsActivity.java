@@ -80,6 +80,7 @@ public class ContactUsActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
         mgodph2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

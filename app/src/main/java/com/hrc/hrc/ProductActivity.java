@@ -209,7 +209,7 @@ public class ProductActivity extends AppCompatActivity {
 //            productsViewholder.itemOneDesc.setText(Products.itemOneDesc);
             productsViewholder.itemname.setText(Products.itemName);
             productsViewholder.itemOneDesc.setTextSize(0F);
-            Picasso.get().load(Products.image).into(productsViewholder.itemImage);
+            Picasso.get().load(Products.image).placeholder(R.drawable.hrc).error(R.drawable.hrc).into(productsViewholder.itemImage);
             prodnamstring = ProductsList.get(i).itemName;
 
             productsViewholder.itemView.setOnClickListener(new View.OnClickListener() {

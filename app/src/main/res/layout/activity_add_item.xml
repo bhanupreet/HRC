@@ -20,7 +20,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginTop="20dp"
         android:layout_marginRight="20dp"
-        android:hint="Item Name">
+        android:hint="@string/item_name">
 
 
         <com.google.android.material.textfield.TextInputEditText
@@ -37,7 +37,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginTop="20dp"
         android:layout_marginRight="20dp"
-        android:hint="Item Description">
+        android:hint="@string/item_description">
 
 
         <com.google.android.material.textfield.TextInputEditText
@@ -53,7 +53,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginTop="20dp"
         android:layout_marginRight="20dp"
-        android:hint="Item One Line Description">
+        android:hint="@string/item_one_line_description">
 
 
         <com.google.android.material.textfield.TextInputEditText
@@ -71,7 +71,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginTop="20dp"
         android:backgroundTint="@color/colorAccent"
-        android:text="Upload image"
+        android:text="@string/upload_image"
         android:textColor="#ffffff"
         android:textSize="14dp" />
 
@@ -82,9 +82,9 @@
         android:layout_below="@+id/item_descone_input"
         android:layout_alignParentRight="true"
         android:layout_marginTop="20dp"
-        android:layout_marginRight="20dp"
+        android:layout_marginEnd="20dp"
         android:backgroundTint="@color/colorAccent"
-        android:text="Delete Image"
+        android:text="@string/delete_image"
         android:textColor="#ffffff"
         android:textSize="14dp" />
 
@@ -110,7 +110,7 @@
     android:backgroundTint="#008000"
     android:layout_centerHorizontal="true"
     android:gravity="center"
-    android:text="Add"
+        android:text="@string/add"
     android:textColor="#ffffff"
     android:textSize="14dp" />
     <Button
@@ -123,7 +123,7 @@
         android:backgroundTint="#ff0000"
         android:layout_centerHorizontal="true"
         android:gravity="center"
-        android:text="Delete"
+        android:text="@string/delete"
         android:visibility="invisible"
         android:clickable="false"
         android:textColor="#ffffff"

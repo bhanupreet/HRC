@@ -122,7 +122,7 @@ public class ItemListActivity extends AppCompatActivity {
                     searchItemsList.clear();
                     for (Item item : allItemslist) {
                         if (!TextUtils.isEmpty(item.itemName) && !TextUtils.isEmpty(item.itemDesc)) {
-                            if (item.itemName.toLowerCase().contains(newText) || item.itemDesc.toLowerCase().contains(newText)) {
+                            if (item.itemName.toLowerCase().contains(newText) || item.itemDesc.toLowerCase().contains(newText) || item.itemOneDesc.toLowerCase().contains(newText)) {
                                 searchItemsList.add(item);
                             }
                         }
@@ -233,7 +233,7 @@ public class ItemListActivity extends AppCompatActivity {
             final Item item = mItemList.get(i);
             itemListViewHolder.itemOneDesc.setText(item.itemOneDesc);
             itemListViewHolder.itemname.setText(item.itemName);
-            Picasso.get().load(item.image).into(itemListViewHolder.itemImage);
+            Picasso.get().load(item.image).placeholder(R.drawable.hrc).error(R.drawable.hrc).into(itemListViewHolder.itemImage);
 
             itemListViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

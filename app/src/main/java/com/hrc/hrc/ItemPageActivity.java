@@ -43,7 +43,7 @@ public class ItemPageActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 //        getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
 
-        Picasso.get().load(imagestring).into(mItemImage);
+        Picasso.get().load(imagestring).placeholder(R.drawable.hrc).error(R.drawable.hrc).into(mItemImage);
         mItemName.setText(itemstring);
         mItemDesc.setText(mItemDescString);
         mItemImage.setOnClickListener(new View.OnClickListener() {
