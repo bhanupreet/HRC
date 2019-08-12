@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 public class ContactUsActivity extends AppCompatActivity {
@@ -15,6 +16,7 @@ public class ContactUsActivity extends AppCompatActivity {
     private CardView mAmarjit, mHarpal, mKaran;
     private TextView moffadd, moffph, mgodph1, mgodph2, mgodadd, memail;
     private Toolbar appbar;
+    private Button mAboutUsbtn, mProductsBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +33,8 @@ public class ContactUsActivity extends AppCompatActivity {
         mgodadd = findViewById(R.id.godownadd);
         memail = findViewById(R.id.email);
         appbar = findViewById(R.id.contactusappbar);
+        mAboutUsbtn = findViewById(R.id.contact_AboutUsBtn);
+        mProductsBtn = findViewById(R.id.contactus_productsBtn);
 
         setSupportActionBar(appbar);
         getSupportActionBar().setTitle("Contact Us");
@@ -99,6 +103,22 @@ public class ContactUsActivity extends AppCompatActivity {
                 if (intent.resolveActivity(getPackageManager()) != null) {
                     startActivity(intent);
                 }
+            }
+        });
+
+        mAboutUsbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent AboutUsIntent = new Intent(ContactUsActivity.this, AboutUsActivity.class);
+                startActivity(AboutUsIntent);
+            }
+        });
+
+        mProductsBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent AboutUsIntent = new Intent(ContactUsActivity.this, ProductActivity.class);
+                startActivity(AboutUsIntent);
             }
         });
     }

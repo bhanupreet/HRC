@@ -1,11 +1,11 @@
 <resources>
-    <string name="app_name">HRC</string>
+    <string name="app_name">HRC - Delhi</string>
     <string name="contact_us">Contact Us</string>
     <string name="products">Products</string>
     <string name="about_us">About Us</string>
     <string name="home">Home</string>
     <string name="aboutustext"><![CDATA[Harjindra Radio Components Pvt Ltd (HRC) having foot prints across Pan-India majorly covering South India with network of more than 200+ dealers , dealing in total range of Consumer Durable Electronics, Home Appliances and most importantly their Spareparts and accessories. The company was founded by Late S.Gurdip Singh with his brother S.Amarjit Singh in 1968 starting with Radios , Transistors, printed circuit boards and transformers. With changing scenario from last 5 decades the company has evolved with time in various electronics and electrical products.]]></string>
-    <string name="harjindra_radio_components">Harjindra Radio Components</string>
+    <string name="harjindra_radio_components">Harjindra Radio Components Pvt. Ltd.</string>
     <string name="amarjit_singh_co_founder">Amarjit Singh (Co-founder)</string>
     <string name="_91_9811065155">📞: +91 9811065155</string>
     <string name="harpal_singh_director">Harpal Singh(Director)</string>

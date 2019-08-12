@@ -13,6 +13,8 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import java.util.Objects;
+
 public class ItemPageActivity extends AppCompatActivity {
 
     String prodnamestring, itemstring, itemrefstring, mItemDescString, mItemOneDescString, imagestring;
@@ -39,9 +41,18 @@ public class ItemPageActivity extends AppCompatActivity {
         mitempage_appbar = findViewById(R.id.itempage_appbar);
 
         setSupportActionBar(mitempage_appbar);
-        getSupportActionBar().setTitle(itemstring);
+        Objects.requireNonNull(getSupportActionBar()).setTitle(itemstring);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 //        getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
+
+        mitempage_appbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ItemPageActivity.this, ItemListActivity.class);
+                intent.putExtra("Product", prodnamestring);
+                startActivity(intent);
+            }
+        });
 
         Picasso.get().load(imagestring).placeholder(R.drawable.hrc).error(R.drawable.hrc).into(mItemImage);
         mItemName.setText(itemstring);
@@ -60,20 +71,4 @@ public class ItemPageActivity extends AppCompatActivity {
             }
         });
     }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        switch (item.getItemId()) {
-
-            case android.R.id.home:
-                Log.d("backbutton", "cheguei");
-                Intent intent = new Intent(ItemPageActivity.this, ItemListActivity.class);
-                intent.putExtra("Product", prodnamestring);
-                startActivity(intent);
-                break;
-        }
-        return true;
-    }
-
 }

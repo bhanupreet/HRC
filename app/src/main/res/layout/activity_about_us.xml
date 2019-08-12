@@ -29,4 +29,36 @@
             android:id="@+id/aboutustext" />
     </androidx.cardview.widget.CardView>
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_margin="10dp">
+
+        <Button
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:textColor="#ffffff"
+            android:text="@string/products"
+            android:background="@drawable/rectanglebg"
+            android:layout_margin="10dp"
+            android:textSize="18sp"
+            android:layout_marginBottom="10dp"
+            android:layout_alignParentLeft="true"
+            android:id="@+id/aboutus_productsBtn" />
+
+        <Button
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:textColor="#ffffff"
+            android:text="@string/contact_us"
+            android:background="@drawable/rectanglebg"
+            android:layout_margin="10dp"
+            android:textSize="18sp"
+            android:layout_marginBottom="10dp"
+            android:layout_alignParentRight="true"
+            android:id="@+id/about_ContactUsBtn" />
+    </RelativeLayout>
+
+
 </LinearLayout>

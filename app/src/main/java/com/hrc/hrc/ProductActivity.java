@@ -231,17 +231,18 @@ public class ProductActivity extends AppCompatActivity {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 if (which == 0) {
-                                    Query q1 = FirebaseDatabase.getInstance().getReference().child("Product").orderByChild("itemName").equalTo(prodnamstring);
+                                    Query q1 = FirebaseDatabase.getInstance().getReference().child("Product").orderByChild("itemName").equalTo(ProductsList.get(i).itemName);
                                     q1.addListenerForSingleValueEvent(new ValueEventListener() {
                                         @Override
                                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                            DataSnapshot nodeDataSnapshot = dataSnapshot.getChildren().iterator().next();
-                                            String itemrefstring = nodeDataSnapshot.getKey();
-                                            Intent prodIntent = new Intent(ProductActivity.this, AddProductActivity.class);
-                                            prodIntent.putExtra("product_name", prodnamstring);
-                                            prodIntent.putExtra("prod_ref", itemrefstring);
-                                            prodIntent.putExtra("image", Products.image);
-                                            startActivity(prodIntent);
+                                            for (DataSnapshot nodeDataSnapshot : dataSnapshot.getChildren()) {
+                                                String itemrefstring = nodeDataSnapshot.getKey();
+                                                Intent prodIntent = new Intent(ProductActivity.this, AddProductActivity.class);
+                                                prodIntent.putExtra("product_name", ProductsList.get(i).itemName);
+                                                prodIntent.putExtra("prod_ref", itemrefstring);
+                                                prodIntent.putExtra("image", Products.image);
+                                                startActivity(prodIntent);
+                                            }
                                         }
 
                                         @Override

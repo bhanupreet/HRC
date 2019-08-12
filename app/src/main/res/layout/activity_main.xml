@@ -16,17 +16,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/harjindra_radio_components"
-        android:textSize="24dp"
+        android:textSize="24sp"
         android:textStyle="bold"
         android:id="@+id/hrctext"
         android:textColor="@color/colorAccent"
-        android:layout_margin="20dp"
+        android:layout_margin="18dp"
         android:gravity="center"/>
 
     <ImageView
         android:layout_width="250dp"
         android:layout_height="250dp"
-
         android:minWidth="0dp"
         android:layout_gravity="center"
         android:minHeight="0dp"
@@ -38,6 +37,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:textSize="18dp"
+        android:layout_marginTop="40dp"
         android:layout_marginBottom="10dp"
         android:background="@drawable/rectanglebg"
         android:textColor="#ffffff"

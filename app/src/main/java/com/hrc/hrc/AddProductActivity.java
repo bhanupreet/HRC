@@ -134,16 +134,23 @@ public class AddProductActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 newprodnamestring = mproductName.getEditText().getText().toString();
-                prodrefstring = myRef.getKey();
 
                 HashMap<String, Object> result = new HashMap<>();
                 if (!TextUtils.isEmpty(newprodnamestring)) {
                     result.put("itemName", newprodnamestring);
                 }
                 if (!TextUtils.isEmpty(imagestring)) {
+
                     result.put("image", imagestring);
                 } else {
                     result.put("image", "default image");
+                }
+                FirebaseDatabase database = FirebaseDatabase.getInstance();
+
+                if (TextUtils.isEmpty(prodrefstring)) {
+                    myRef = database.getReference().child("Product").push();
+                } else {
+                    myRef = database.getReference().child("Product").child(prodrefstring);
                 }
                 myRef.updateChildren(result).
                         addOnCompleteListener(new OnCompleteListener<Void>() {

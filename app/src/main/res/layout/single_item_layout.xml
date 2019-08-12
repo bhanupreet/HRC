@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="5dp"
+    android:id="@+id/cardviewadapter"
     >
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
@@ -15,7 +16,6 @@
         android:layout_height="100dp"
         android:src="@drawable/hrc"
         android:id="@+id/productimage"
-        android:layout_centerInParent="true"
         android:layout_margin="5dp"/>
     <TextView
         android:layout_width="match_parent"

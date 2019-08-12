@@ -240,22 +240,23 @@ public class ItemListActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     String itemnamestring = mItemList.get(i).itemName;
 
-                    Query itemref = FirebaseDatabase.getInstance().getReference().child("Items").orderByChild("itemName").equalTo(itemnamestring);
+                    Query itemref = FirebaseDatabase.getInstance().getReference().child("Items").orderByChild("itemName").equalTo(mItemList.get(i).itemName);
                     itemref.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            DataSnapshot nodeDataSnapshot = dataSnapshot.getChildren().iterator().next();
-                            String itemrefstring = nodeDataSnapshot.getKey(); // this key is `K1NRz9l5PU_0CFDtgXz`
-                            Log.d("itemkey", itemrefstring);
-                            Intent ItemPageIntent = new Intent(ItemListActivity.this, ItemPageActivity.class);
-                            ItemPageIntent.putExtra("product_name", mProductName);
-                            ItemPageIntent.putExtra("itemName", mItemList.get(i).itemName);
-                            ItemPageIntent.putExtra("itemRef", itemrefstring);
-                            ItemPageIntent.putExtra("itemDesc", mItemList.get(i).itemDesc);
-                            ItemPageIntent.putExtra("itemOneDesc", mItemList.get(i).itemOneDesc);
-                            ItemPageIntent.putExtra("image", mItemList.get(i).image);
-                            startActivity(ItemPageIntent);
-                            finish();
+                            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                                String itemrefstring = snapshot.getKey(); // this key is `K1NRz9l5PU_0CFDtgXz`
+                                Log.d("itemkey", itemrefstring);
+                                Intent ItemPageIntent = new Intent(ItemListActivity.this, ItemPageActivity.class);
+                                ItemPageIntent.putExtra("product_name", mProductName);
+                                ItemPageIntent.putExtra("itemName", mItemList.get(i).itemName);
+                                ItemPageIntent.putExtra("itemRef", itemrefstring);
+                                ItemPageIntent.putExtra("itemDesc", mItemList.get(i).itemDesc);
+                                ItemPageIntent.putExtra("itemOneDesc", mItemList.get(i).itemOneDesc);
+                                ItemPageIntent.putExtra("image", mItemList.get(i).image);
+                                startActivity(ItemPageIntent);
+                                finish();
+                            }
                         }
 
                         @Override

@@ -152,28 +152,20 @@ public class AddItemActivity extends AppCompatActivity {
                 if (!TextUtils.isEmpty(itemstring)) {
                     result.put("itemName", itemstring);
                 }
-
-                if (!TextUtils.isEmpty(mItemOneDescString)) {
-                    result.put("itemOneDesc", mItemOneDescString);
-
-                } else if (TextUtils.isEmpty(mItemOneDescString) && !TextUtils.isEmpty(mItemDescString)) {
-                    mItemOneDescString = mItemDescString.substring(0, Math.min(mItemDescString.length(), 30));
-                    result.put("itemOneDesc", mItemOneDescString);
-                }
-
-                if (!mItemDescString.equals("")) {
+                if (!TextUtils.isEmpty(mItemDescString)) {
                     result.put("itemDesc", mItemDescString);
+
+                    if (!TextUtils.isEmpty(mItemOneDescString)) {
+                        result.put("itemOneDesc", mItemOneDescString);
+
+                    } else if (TextUtils.isEmpty(mItemOneDescString) && !TextUtils.isEmpty(mItemDescString)) {
+                        mItemOneDescString = mItemDescString.substring(0, Math.min(mItemDescString.length(), 30));
+                        result.put("itemOneDesc", mItemOneDescString);
+                    }
+
                 }
 
                 if (TextUtils.isEmpty(imagestring)) {
-                    FirebaseDatabase database = FirebaseDatabase.getInstance();
-
-                    if (TextUtils.isEmpty(itemrefstring)) {
-
-                        myRef = database.getReference().child("Items").push();
-                    } else {
-                        myRef = database.getReference().child("Items").child(itemrefstring);
-                    }
                     result.put("image", "default image");
 
                 } else {
@@ -183,6 +175,13 @@ public class AddItemActivity extends AppCompatActivity {
                 result.put("product_name", prodnamestring);
 
 
+                FirebaseDatabase database = FirebaseDatabase.getInstance();
+
+                if (TextUtils.isEmpty(itemrefstring)) {
+                    myRef = database.getReference().child("Items").push();
+                } else {
+                    myRef = database.getReference().child("Items").child(itemrefstring);
+                }
                 myRef.updateChildren(result).
                         addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
