@@ -76,6 +76,14 @@ public class AddProductActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Add Product");
 
+        appbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent prodIntent = new Intent(AddProductActivity.this, ProductActivity.class);
+                startActivity(prodIntent);
+            }
+        });
+
         mDeleteImagebtn.setVisibility(View.INVISIBLE);
         mDeleteImagebtn.setClickable(false);
 
@@ -315,5 +323,12 @@ public class AddProductActivity extends AppCompatActivity {
             }
 
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent prodIntent = new Intent(AddProductActivity.this, ProductActivity.class);
+        startActivity(prodIntent);
     }
 }

@@ -58,12 +58,27 @@ public class ProductActivity extends AppCompatActivity {
         addBtn = findViewById(R.id.productaddBtn);
         productAppBar = findViewById(R.id.productappbar);
 
+        //user feature
+
+//        addBtn.setClickable(false);
+//        addBtn.hide();
+
+        //user feature
+
         ProductsearchList = new ArrayList<>();
         allProductslist = new ArrayList<>();
 
         setSupportActionBar(productAppBar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Products");
+
+        productAppBar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent mainIntent = new Intent(ProductActivity.this, MainActivity.class);
+                startActivity(mainIntent);
+            }
+        });
 
         productsRecycler = findViewById(R.id.productrecyler);
         productsRecycler.setHasFixedSize(true);
@@ -221,6 +236,8 @@ public class ProductActivity extends AppCompatActivity {
                 }
             });
 
+            //admin feature start
+
             productsViewholder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
@@ -257,6 +274,8 @@ public class ProductActivity extends AppCompatActivity {
                     }
                 }
             });
+
+            //admin feature end
         }
 
         @Override
@@ -268,13 +287,22 @@ public class ProductActivity extends AppCompatActivity {
     private class ProductsViewholder extends RecyclerView.ViewHolder {
 
         TextView itemname, itemOneDesc;
-        ImageView itemImage;
+        ImageView itemImage, watermark;
 
         public ProductsViewholder(@NonNull View itemView) {
             super(itemView);
             itemname = itemView.findViewById(R.id.itemname);
             itemOneDesc = itemView.findViewById(R.id.onelinedesc);
             itemImage = itemView.findViewById(R.id.productimage);
+            watermark = itemView.findViewById(R.id.watermark);
+            watermark.setAlpha(0.3f);
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent mainIntent = new Intent(ProductActivity.this, MainActivity.class);
+        startActivity(mainIntent);
     }
 }

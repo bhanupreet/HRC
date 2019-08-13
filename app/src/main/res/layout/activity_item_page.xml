@@ -52,7 +52,8 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:layout_marginBottom="10dp">
+        android:id="@+id/desccard"
+        android:layout_marginBottom="15dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -75,7 +76,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
                 android:layout_marginLeft="15dp"
-                android:layout_marginTop="4dp"
+                android:layout_marginBottom="2dp"
+                android:layout_marginTop="2dp"
                 android:layout_marginRight="15dp"
                 android:background="@color/colorAccent" />
 
@@ -85,10 +87,11 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
                 android:layout_marginLeft="15dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="5dp"
                 android:layout_marginRight="15dp"
                 android:text="sample Description"
                 android:textColor="#212121"
+                android:layout_marginBottom="5dp"
                 android:textSize="20sp" />
 
 

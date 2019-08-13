@@ -57,6 +57,12 @@ public class ItemListActivity extends AppCompatActivity {
         mItemListRecycler = findViewById(R.id.itemListrecyler);
         mItemaddBtn = findViewById(R.id.itemListaddBtn);
 
+
+        //user feature
+//        mItemaddBtn.setClickable(false);
+//        mItemaddBtn.hide();
+        // user feature
+
         mItemListRecycler.setHasFixedSize(true);
         GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
         mItemListRecycler.setLayoutManager(layoutManager);
@@ -73,6 +79,15 @@ public class ItemListActivity extends AppCompatActivity {
         setSupportActionBar(mItemListAppBar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(mProductName);
+
+        mItemListAppBar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent ProductIntent = new Intent(ItemListActivity.this, ProductActivity.class);
+                startActivity(ProductIntent);
+                finish();
+            }
+        });
 
         Query query = FirebaseDatabase.getInstance()
                 .getReference().child("Items").orderByChild("product_name").equalTo(mProductName);
@@ -267,6 +282,9 @@ public class ItemListActivity extends AppCompatActivity {
                 }
             });
 
+
+            //admin features start
+
             itemListViewHolder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
@@ -310,6 +328,8 @@ public class ItemListActivity extends AppCompatActivity {
                     return true;
                 }
             });
+
+            //admin feature end
         }
 
         @Override
@@ -321,13 +341,23 @@ public class ItemListActivity extends AppCompatActivity {
     private class ItemListViewHolder extends RecyclerView.ViewHolder {
 
         TextView itemname, itemOneDesc;
-        ImageView itemImage;
+        ImageView itemImage, watermark;
 
         public ItemListViewHolder(@NonNull View itemView) {
             super(itemView);
             itemname = itemView.findViewById(R.id.itemname);
             itemOneDesc = itemView.findViewById(R.id.onelinedesc);
             itemImage = itemView.findViewById(R.id.productimage);
+            watermark = itemView.findViewById(R.id.watermark);
+            watermark.setAlpha(0.3f);
+            watermark.setMinimumHeight(168);
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent ProductIntent = new Intent(ItemListActivity.this, ProductActivity.class);
+        startActivity(ProductIntent);
     }
 }

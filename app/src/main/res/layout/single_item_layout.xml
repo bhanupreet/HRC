@@ -5,10 +5,18 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="5dp"
-    android:id="@+id/cardviewadapter"
-    >
+    android:id="@+id/singlecard"
+    android:background="@drawable/watermark">
+
+    <ImageView
+        android:id="@+id/watermark"
+        android:layout_width="wrap_content"
+        android:layout_height="160dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/watermark" />
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
     <ImageView
@@ -19,10 +27,12 @@
         android:layout_margin="5dp"/>
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="20sp"
         android:text="Item Name"
         android:textSize="18sp"
+        android:textColor="#212121"
         android:layout_margin="5dp"
+        android:shadowColor="#ffffff"
         android:gravity="center"
         android:id="@+id/itemname"/>
     <TextView
@@ -30,6 +40,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/onelinedesc"
         android:textSize="14sp"
+        android:textColor="#212121"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
         android:layout_marginBottom="5dp"

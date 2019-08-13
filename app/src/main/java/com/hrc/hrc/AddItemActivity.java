@@ -101,6 +101,15 @@ public class AddItemActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Add Item");
 
+        appbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent itemlistintent = new Intent(AddItemActivity.this, ItemListActivity.class);
+                itemlistintent.putExtra("Product", prodnamestring);
+                startActivity(itemlistintent);
+            }
+        });
+
         muploadimagebtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -300,5 +309,13 @@ public class AddItemActivity extends AppCompatActivity {
                 }
             }
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent itemlistintent = new Intent(AddItemActivity.this, ItemListActivity.class);
+        itemlistintent.putExtra("Product", prodnamestring);
+        startActivity(itemlistintent);
     }
 }

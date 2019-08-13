@@ -49,6 +49,19 @@ public class FullScreenImageActivity extends AppCompatActivity {
                 startActivity(ItemPageIntent);
             }
         });
-        Picasso.get().load(imagestring).into(fullscreenphoto);
+        Picasso.get().load(imagestring).placeholder(R.drawable.hrc).error(R.drawable.hrc).into(fullscreenphoto);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent ItemPageIntent = new Intent(FullScreenImageActivity.this, ItemPageActivity.class);
+        ItemPageIntent.putExtra("product_name", prodnamestring);
+        ItemPageIntent.putExtra("itemName", itemstring);
+        ItemPageIntent.putExtra("itemRef", itemrefstring);
+        ItemPageIntent.putExtra("itemDesc", mItemDescString);
+        ItemPageIntent.putExtra("itemOneDesc", mItemOneDescString);
+        ItemPageIntent.putExtra("image", imagestring);
+        startActivity(ItemPageIntent);
     }
 }

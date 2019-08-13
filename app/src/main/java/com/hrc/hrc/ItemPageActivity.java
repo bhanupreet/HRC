@@ -2,9 +2,11 @@ package com.hrc.hrc;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.cardview.widget.CardView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,6 +23,7 @@ public class ItemPageActivity extends AppCompatActivity {
     private TextView mItemName, mItemDesc;
     private ImageView mItemImage;
     private Toolbar mitempage_appbar;
+    private CardView mdesccard;
 
 
     @Override
@@ -38,6 +41,7 @@ public class ItemPageActivity extends AppCompatActivity {
         mItemName = findViewById(R.id.itempage_itemname);
         mItemDesc = findViewById(R.id.itempage_desc);
         mItemImage = findViewById(R.id.itempage_image);
+        mdesccard = findViewById(R.id.desccard);
         mitempage_appbar = findViewById(R.id.itempage_appbar);
 
         setSupportActionBar(mitempage_appbar);
@@ -54,21 +58,45 @@ public class ItemPageActivity extends AppCompatActivity {
             }
         });
 
+        if (TextUtils.isEmpty(mItemDescString)) {
+            mdesccard.setVisibility(View.INVISIBLE);
+        }
+
+
+        mitempage_appbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ItemPageActivity.this, ItemListActivity.class);
+                intent.putExtra("Product", prodnamestring);
+                startActivity(intent);
+            }
+        });
+
         Picasso.get().load(imagestring).placeholder(R.drawable.hrc).error(R.drawable.hrc).into(mItemImage);
         mItemName.setText(itemstring);
         mItemDesc.setText(mItemDescString);
-        mItemImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent fullscreenIntent = new Intent(ItemPageActivity.this, FullScreenImageActivity.class);
-                fullscreenIntent.putExtra("product_name", prodnamestring);
-                fullscreenIntent.putExtra("itemName", itemstring);
-                fullscreenIntent.putExtra("itemRef", itemrefstring);
-                fullscreenIntent.putExtra("itemDesc", mItemDescString);
-                fullscreenIntent.putExtra("itemOneDesc", mItemOneDescString);
-                fullscreenIntent.putExtra("image", imagestring);
-                startActivity(fullscreenIntent);
-            }
-        });
+        if (!TextUtils.isEmpty(imagestring) || !imagestring.equals("default image")) {
+            mItemImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent fullscreenIntent = new Intent(ItemPageActivity.this, FullScreenImageActivity.class);
+                    fullscreenIntent.putExtra("product_name", prodnamestring);
+                    fullscreenIntent.putExtra("itemName", itemstring);
+                    fullscreenIntent.putExtra("itemRef", itemrefstring);
+                    fullscreenIntent.putExtra("itemDesc", mItemDescString);
+                    fullscreenIntent.putExtra("itemOneDesc", mItemOneDescString);
+                    fullscreenIntent.putExtra("image", imagestring);
+                    startActivity(fullscreenIntent);
+                }
+            });
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(ItemPageActivity.this, ItemListActivity.class);
+        intent.putExtra("Product", prodnamestring);
+        startActivity(intent);
     }
 }
