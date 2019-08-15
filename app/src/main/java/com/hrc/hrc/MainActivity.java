@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent ProductIntent = new Intent(MainActivity.this, ProductActivity.class);
                 startActivity(ProductIntent);
+                finish();
             }
         });
 
@@ -47,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent AboutUsIntent = new Intent(MainActivity.this, AboutUsActivity.class);
                 startActivity(AboutUsIntent);
+                finish();
             }
         });
 
@@ -55,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent ContactUsIntent = new Intent(MainActivity.this, ContactUsActivity.class);
                 startActivity(ContactUsIntent);
+                finish();
             }
         });
 

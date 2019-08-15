@@ -47,6 +47,7 @@ public class FullScreenImageActivity extends AppCompatActivity {
                 ItemPageIntent.putExtra("itemOneDesc", mItemOneDescString);
                 ItemPageIntent.putExtra("image", imagestring);
                 startActivity(ItemPageIntent);
+                finish();
             }
         });
         Picasso.get().load(imagestring).placeholder(R.drawable.hrc).error(R.drawable.hrc).into(fullscreenphoto);
@@ -63,5 +64,6 @@ public class FullScreenImageActivity extends AppCompatActivity {
         ItemPageIntent.putExtra("itemOneDesc", mItemOneDescString);
         ItemPageIntent.putExtra("image", imagestring);
         startActivity(ItemPageIntent);
+        finish();
     }
 }

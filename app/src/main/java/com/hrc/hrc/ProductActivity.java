@@ -77,6 +77,7 @@ public class ProductActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent mainIntent = new Intent(ProductActivity.this, MainActivity.class);
                 startActivity(mainIntent);
+                finish();
             }
         });
 
@@ -95,6 +96,7 @@ public class ProductActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent addProductIntent = new Intent(ProductActivity.this, AddProductActivity.class);
                 startActivity(addProductIntent);
+                finish();
             }
         });
 
@@ -233,6 +235,7 @@ public class ProductActivity extends AppCompatActivity {
                     Intent ItemIntent = new Intent(ProductActivity.this, ItemListActivity.class);
                     ItemIntent.putExtra("Product", ProductsList.get(i).itemName);
                     startActivity(ItemIntent);
+                    finish();
                 }
             });
 
@@ -259,6 +262,7 @@ public class ProductActivity extends AppCompatActivity {
                                                 prodIntent.putExtra("prod_ref", itemrefstring);
                                                 prodIntent.putExtra("image", Products.image);
                                                 startActivity(prodIntent);
+                                                finish();
                                             }
                                         }
 
@@ -295,7 +299,7 @@ public class ProductActivity extends AppCompatActivity {
             itemOneDesc = itemView.findViewById(R.id.onelinedesc);
             itemImage = itemView.findViewById(R.id.productimage);
             watermark = itemView.findViewById(R.id.watermark);
-            watermark.setAlpha(0.3f);
+            watermark.setAlpha(0.2f);
         }
     }
 
@@ -304,5 +308,6 @@ public class ProductActivity extends AppCompatActivity {
         super.onBackPressed();
         Intent mainIntent = new Intent(ProductActivity.this, MainActivity.class);
         startActivity(mainIntent);
+        finish();
     }
 }

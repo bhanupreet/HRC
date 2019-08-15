@@ -42,6 +42,7 @@ public class AboutUsActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent AboutUsIntent = new Intent(AboutUsActivity.this, ContactUsActivity.class);
                 startActivity(AboutUsIntent);
+                finish();
             }
         });
 
@@ -50,6 +51,7 @@ public class AboutUsActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent AboutUsIntent = new Intent(AboutUsActivity.this, ProductActivity.class);
                 startActivity(AboutUsIntent);
+                finish();
             }
         });
 

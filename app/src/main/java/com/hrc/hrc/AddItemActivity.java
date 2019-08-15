@@ -107,6 +107,7 @@ public class AddItemActivity extends AppCompatActivity {
                 Intent itemlistintent = new Intent(AddItemActivity.this, ItemListActivity.class);
                 itemlistintent.putExtra("Product", prodnamestring);
                 startActivity(itemlistintent);
+                finish();
             }
         });
 
@@ -206,6 +207,7 @@ public class AddItemActivity extends AppCompatActivity {
                 Intent mainintent = new Intent(AddItemActivity.this, ItemListActivity.class);
                 mainintent.putExtra("Product", prodnamestring);
                 startActivity(mainintent);
+                finish();
             }
 
         });
@@ -228,6 +230,7 @@ public class AddItemActivity extends AppCompatActivity {
                         Intent itemListIntent = new Intent(AddItemActivity.this, ItemListActivity.class);
                         itemListIntent.putExtra("Product", prodnamestring);
                         startActivity(itemListIntent);
+                        finish();
                     }
                 });
                 alert.setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
@@ -317,5 +320,6 @@ public class AddItemActivity extends AppCompatActivity {
         Intent itemlistintent = new Intent(AddItemActivity.this, ItemListActivity.class);
         itemlistintent.putExtra("Product", prodnamestring);
         startActivity(itemlistintent);
+        finish();
     }
 }

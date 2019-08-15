@@ -81,6 +81,7 @@ public class AddProductActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent prodIntent = new Intent(AddProductActivity.this, ProductActivity.class);
                 startActivity(prodIntent);
+                finish();
             }
         });
 
@@ -194,6 +195,7 @@ public class AddProductActivity extends AppCompatActivity {
                 }
                 Intent mainintent = new Intent(AddProductActivity.this, ProductActivity.class);
                 startActivity(mainintent);
+                finish();
             }
 
         });
@@ -244,6 +246,7 @@ public class AddProductActivity extends AppCompatActivity {
 
                         Intent prodIntent = new Intent(AddProductActivity.this, ProductActivity.class);
                         startActivity(prodIntent);
+                        finish();
                     }
                 });
                 alert.setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
@@ -330,5 +333,6 @@ public class AddProductActivity extends AppCompatActivity {
         super.onBackPressed();
         Intent prodIntent = new Intent(AddProductActivity.this, ProductActivity.class);
         startActivity(prodIntent);
+        finish();
     }
 }

@@ -55,6 +55,7 @@ public class ItemPageActivity extends AppCompatActivity {
                 Intent intent = new Intent(ItemPageActivity.this, ItemListActivity.class);
                 intent.putExtra("Product", prodnamestring);
                 startActivity(intent);
+                finish();
             }
         });
 
@@ -62,15 +63,6 @@ public class ItemPageActivity extends AppCompatActivity {
             mdesccard.setVisibility(View.INVISIBLE);
         }
 
-
-        mitempage_appbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(ItemPageActivity.this, ItemListActivity.class);
-                intent.putExtra("Product", prodnamestring);
-                startActivity(intent);
-            }
-        });
 
         Picasso.get().load(imagestring).placeholder(R.drawable.hrc).error(R.drawable.hrc).into(mItemImage);
         mItemName.setText(itemstring);
@@ -87,6 +79,7 @@ public class ItemPageActivity extends AppCompatActivity {
                     fullscreenIntent.putExtra("itemOneDesc", mItemOneDescString);
                     fullscreenIntent.putExtra("image", imagestring);
                     startActivity(fullscreenIntent);
+                    finish();
                 }
             });
         }
@@ -98,5 +91,6 @@ public class ItemPageActivity extends AppCompatActivity {
         Intent intent = new Intent(ItemPageActivity.this, ItemListActivity.class);
         intent.putExtra("Product", prodnamestring);
         startActivity(intent);
+        finish();
     }
 }

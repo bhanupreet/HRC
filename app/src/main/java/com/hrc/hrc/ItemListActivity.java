@@ -103,6 +103,7 @@ public class ItemListActivity extends AppCompatActivity {
                 Intent AddItemIntent = new Intent(ItemListActivity.this, AddItemActivity.class);
                 AddItemIntent.putExtra("product_name", mProductName);
                 startActivity(AddItemIntent);
+                finish();
             }
         });
 
@@ -349,8 +350,8 @@ public class ItemListActivity extends AppCompatActivity {
             itemOneDesc = itemView.findViewById(R.id.onelinedesc);
             itemImage = itemView.findViewById(R.id.productimage);
             watermark = itemView.findViewById(R.id.watermark);
-            watermark.setAlpha(0.3f);
-            watermark.setMinimumHeight(168);
+            watermark.setAlpha(0.2f);
+
         }
     }
 
@@ -359,5 +360,6 @@ public class ItemListActivity extends AppCompatActivity {
         super.onBackPressed();
         Intent ProductIntent = new Intent(ItemListActivity.this, ProductActivity.class);
         startActivity(ProductIntent);
+        finish();
     }
 }

@@ -46,6 +46,7 @@ public class ContactUsActivity extends AppCompatActivity {
                 Intent intent = new Intent(Intent.ACTION_DIAL);
                 intent.setData(Uri.parse("tel:+91 9811065155"));
                 startActivity(intent);
+                finish();
             }
         });
 
@@ -55,6 +56,7 @@ public class ContactUsActivity extends AppCompatActivity {
                 Intent intent = new Intent(Intent.ACTION_DIAL);
                 intent.setData(Uri.parse("tel:+91 9811093181"));
                 startActivity(intent);
+                finish();
             }
         });
 
@@ -64,6 +66,7 @@ public class ContactUsActivity extends AppCompatActivity {
                 Intent intent = new Intent(Intent.ACTION_DIAL);
                 intent.setData(Uri.parse("tel:+91 9999085959"));
                 startActivity(intent);
+                finish();
             }
         });
 
@@ -73,6 +76,7 @@ public class ContactUsActivity extends AppCompatActivity {
                 Intent intent = new Intent(Intent.ACTION_DIAL);
                 intent.setData(Uri.parse("tel:011 23862334"));
                 startActivity(intent);
+                finish();
             }
         });
 
@@ -82,6 +86,7 @@ public class ContactUsActivity extends AppCompatActivity {
                 Intent intent = new Intent(Intent.ACTION_DIAL);
                 intent.setData(Uri.parse("tel:011 23869199"));
                 startActivity(intent);
+                finish();
             }
         });
 
@@ -90,7 +95,8 @@ public class ContactUsActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(Intent.ACTION_DIAL);
                 intent.setData(Uri.parse("tel:011 23865155"));
-                startActivity(intent);
+                finish();
+
             }
         });
 
@@ -102,6 +108,7 @@ public class ContactUsActivity extends AppCompatActivity {
                 intent.putExtra(Intent.EXTRA_EMAIL, "hrc485@gmail.com");
                 if (intent.resolveActivity(getPackageManager()) != null) {
                     startActivity(intent);
+                    finish();
                 }
             }
         });
@@ -111,6 +118,7 @@ public class ContactUsActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent AboutUsIntent = new Intent(ContactUsActivity.this, AboutUsActivity.class);
                 startActivity(AboutUsIntent);
+                finish();
             }
         });
 
@@ -119,6 +127,7 @@ public class ContactUsActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent AboutUsIntent = new Intent(ContactUsActivity.this, ProductActivity.class);
                 startActivity(AboutUsIntent);
+                finish();
             }
         });
     }
