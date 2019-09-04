@@ -40,6 +40,15 @@ public class ContactUsActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("Contact Us");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        appbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ContactUsActivity.this, MainActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+
         mAmarjit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -130,5 +139,13 @@ public class ContactUsActivity extends AppCompatActivity {
                 finish();
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(ContactUsActivity.this, MainActivity.class);
+        startActivity(intent);
+        finish();
     }
 }

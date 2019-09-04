@@ -60,8 +60,8 @@ public class ProductActivity extends AppCompatActivity {
 
         //user feature
 
-//        addBtn.setClickable(false);
-//        addBtn.hide();
+        addBtn.setClickable(false);
+        addBtn.hide();
 
         //user feature
 
@@ -241,43 +241,43 @@ public class ProductActivity extends AppCompatActivity {
 
             //admin feature start
 
-            productsViewholder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    {
-                        AlertDialog.Builder delete = new AlertDialog.Builder(ProductActivity.this);
-                        CharSequence[] options = new CharSequence[]{"Edit"};
-                        delete.setItems(options, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                if (which == 0) {
-                                    Query q1 = FirebaseDatabase.getInstance().getReference().child("Product").orderByChild("itemName").equalTo(ProductsList.get(i).itemName);
-                                    q1.addListenerForSingleValueEvent(new ValueEventListener() {
-                                        @Override
-                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                            for (DataSnapshot nodeDataSnapshot : dataSnapshot.getChildren()) {
-                                                String itemrefstring = nodeDataSnapshot.getKey();
-                                                Intent prodIntent = new Intent(ProductActivity.this, AddProductActivity.class);
-                                                prodIntent.putExtra("product_name", ProductsList.get(i).itemName);
-                                                prodIntent.putExtra("prod_ref", itemrefstring);
-                                                prodIntent.putExtra("image", Products.image);
-                                                startActivity(prodIntent);
-                                                finish();
-                                            }
-                                        }
-
-                                        @Override
-                                        public void onCancelled(@NonNull DatabaseError databaseError) {
-                                        }
-                                    });
-                                }
-                            }
-                        });
-                        delete.show();
-                        return true;
-                    }
-                }
-            });
+//            productsViewholder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+//                @Override
+//                public boolean onLongClick(View v) {
+//                    {
+//                        AlertDialog.Builder delete = new AlertDialog.Builder(ProductActivity.this);
+//                        CharSequence[] options = new CharSequence[]{"Edit"};
+//                        delete.setItems(options, new DialogInterface.OnClickListener() {
+//                            @Override
+//                            public void onClick(DialogInterface dialog, int which) {
+//                                if (which == 0) {
+//                                    Query q1 = FirebaseDatabase.getInstance().getReference().child("Product").orderByChild("itemName").equalTo(ProductsList.get(i).itemName);
+//                                    q1.addListenerForSingleValueEvent(new ValueEventListener() {
+//                                        @Override
+//                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                                            for (DataSnapshot nodeDataSnapshot : dataSnapshot.getChildren()) {
+//                                                String itemrefstring = nodeDataSnapshot.getKey();
+//                                                Intent prodIntent = new Intent(ProductActivity.this, AddProductActivity.class);
+//                                                prodIntent.putExtra("product_name", ProductsList.get(i).itemName);
+//                                                prodIntent.putExtra("prod_ref", itemrefstring);
+//                                                prodIntent.putExtra("image", Products.image);
+//                                                startActivity(prodIntent);
+//                                                finish();
+//                                            }
+//                                        }
+//
+//                                        @Override
+//                                        public void onCancelled(@NonNull DatabaseError databaseError) {
+//                                        }
+//                                    });
+//                                }
+//                            }
+//                        });
+//                        delete.show();
+//                        return true;
+//                    }
+//                }
+//            });
 
             //admin feature end
         }

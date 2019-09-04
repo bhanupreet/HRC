@@ -29,6 +29,15 @@ public class AboutUsActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("About Us");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        appbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(AboutUsActivity.this, MainActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+
         aboutustext.setText("About Us:\n" +
                 "Harjindra Radio Components Pvt Ltd (HRC) having foot prints across Pan-India majorly covering South " +
                 "India with network of more than 200+ dealers , dealing in total range of Consumer Durable Electronics," +
@@ -55,5 +64,13 @@ public class AboutUsActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(AboutUsActivity.this, MainActivity.class);
+        startActivity(intent);
+        finish();
     }
 }

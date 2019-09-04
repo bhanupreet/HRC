@@ -59,8 +59,8 @@ public class ItemListActivity extends AppCompatActivity {
 
 
         //user feature
-//        mItemaddBtn.setClickable(false);
-//        mItemaddBtn.hide();
+        mItemaddBtn.setClickable(false);
+        mItemaddBtn.hide();
         // user feature
 
         mItemListRecycler.setHasFixedSize(true);
@@ -286,49 +286,49 @@ public class ItemListActivity extends AppCompatActivity {
 
             //admin features start
 
-            itemListViewHolder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    AlertDialog.Builder delete = new AlertDialog.Builder(ItemListActivity.this);
-                    CharSequence[] options = new CharSequence[]{"Edit"};
-                    delete.setItems(options, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-
-                            if (which == 0) {
-
-                                String itemnamestring = mItemList.get(i).itemName;
-
-                                Query itemref = FirebaseDatabase.getInstance().getReference().child("Items").orderByChild("itemName").equalTo(itemnamestring);
-                                itemref.addListenerForSingleValueEvent(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                        DataSnapshot nodeDataSnapshot = dataSnapshot.getChildren().iterator().next();
-                                        String itemrefstring = nodeDataSnapshot.getKey(); // this key is `K1NRz9l5PU_0CFDtgXz`
-                                        Log.d("itemkey", itemrefstring);
-                                        Intent AddItemIntent = new Intent(ItemListActivity.this, AddItemActivity.class);
-                                        AddItemIntent.putExtra("product_name", mProductName);
-                                        AddItemIntent.putExtra("itemName", mItemList.get(i).itemName);
-                                        AddItemIntent.putExtra("itemRef", itemrefstring);
-                                        AddItemIntent.putExtra("itemDesc", mItemList.get(i).itemDesc);
-                                        AddItemIntent.putExtra("itemOneDesc", mItemList.get(i).itemOneDesc);
-                                        AddItemIntent.putExtra("image", mItemList.get(i).image);
-                                        startActivity(AddItemIntent);
-                                        finish();
-                                    }
-
-                                    @Override
-                                    public void onCancelled(@NonNull DatabaseError databaseError) {
-                                    }
-                                });
-                            }
-                        }
-                    });
-
-                    delete.show();
-                    return true;
-                }
-            });
+//            itemListViewHolder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+//                @Override
+//                public boolean onLongClick(View v) {
+//                    AlertDialog.Builder delete = new AlertDialog.Builder(ItemListActivity.this);
+//                    CharSequence[] options = new CharSequence[]{"Edit"};
+//                    delete.setItems(options, new DialogInterface.OnClickListener() {
+//                        @Override
+//                        public void onClick(DialogInterface dialog, int which) {
+//
+//                            if (which == 0) {
+//
+//                                String itemnamestring = mItemList.get(i).itemName;
+//
+//                                Query itemref = FirebaseDatabase.getInstance().getReference().child("Items").orderByChild("itemName").equalTo(itemnamestring);
+//                                itemref.addListenerForSingleValueEvent(new ValueEventListener() {
+//                                    @Override
+//                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                                        DataSnapshot nodeDataSnapshot = dataSnapshot.getChildren().iterator().next();
+//                                        String itemrefstring = nodeDataSnapshot.getKey(); // this key is `K1NRz9l5PU_0CFDtgXz`
+//                                        Log.d("itemkey", itemrefstring);
+//                                        Intent AddItemIntent = new Intent(ItemListActivity.this, AddItemActivity.class);
+//                                        AddItemIntent.putExtra("product_name", mProductName);
+//                                        AddItemIntent.putExtra("itemName", mItemList.get(i).itemName);
+//                                        AddItemIntent.putExtra("itemRef", itemrefstring);
+//                                        AddItemIntent.putExtra("itemDesc", mItemList.get(i).itemDesc);
+//                                        AddItemIntent.putExtra("itemOneDesc", mItemList.get(i).itemOneDesc);
+//                                        AddItemIntent.putExtra("image", mItemList.get(i).image);
+//                                        startActivity(AddItemIntent);
+//                                        finish();
+//                                    }
+//
+//                                    @Override
+//                                    public void onCancelled(@NonNull DatabaseError databaseError) {
+//                                    }
+//                                });
+//                            }
+//                        }
+//                    });
+//
+//                    delete.show();
+//                    return true;
+//                }
+//            });
 
             //admin feature end
         }
